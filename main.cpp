@@ -1,17 +1,29 @@
-#include "InfoMonitor.h"
-#include <QtWidgets/QApplication>
+﻿#include "InfoMonitor.h"
+#include <QApplication>
+#include <QSharedMemory>
+#include <QMessageBox>
+#include <QString>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
-    
+
     // 设置应用程序信息
     app.setApplicationName("InfoMonitor");
     app.setApplicationVersion("1.0");
     app.setOrganizationName("InfoMonitor");
-    
-    InfoMonitor window;
+
+    // 单例检测
+    QSharedMemory sharedMemory("InfoMonitor_SingleInstance");
+    if (!sharedMemory.create(1)) {
+        // 如果创建失败，说明已经有实例在运行
+        QMessageBox::information(nullptr, QString::fromStdWString(L"InfoMonitor"),
+            QString::fromStdWString(L"程序已经在运行中！"));
+        return 0;
+    }
+
+    // 获取单例实例并显示
+    InfoMonitor& window = InfoMonitor::getInstance();
     window.show();
-    
+
     return app.exec();
 }

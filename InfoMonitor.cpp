@@ -11,8 +11,18 @@
 #include <QCheckBox>
 #include <QMenu>
 #include <QAbstractItemView>
+#include <QString>
+#include <QPixmap>
+#include <QPainter>
+#include <QIcon>
 
-InfoMonitor::InfoMonitor(QWidget* parent) : QMainWindow(parent) {
+InfoMonitor& InfoMonitor::getInstance() {
+    static InfoMonitor instance;
+    return instance;
+}
+
+InfoMonitor::InfoMonitor()
+    : QMainWindow(nullptr) {
     // 先创建监控管理器
     m_monitorManager = new MonitorManager(this);
     m_configManager = m_monitorManager->getConfigManager();
@@ -52,12 +62,14 @@ InfoMonitor::~InfoMonitor() {
 
 void InfoMonitor::setupUI() {
     setWindowTitle(QString::fromStdWString(L"InfoMonitor - 系统监控工具"));
+    setWindowIcon(QIcon(":/InfoMonitor/res/main.png"));
     setMinimumSize(1000, 600);
     resize(1200, 800);
 
     setupMenuBar();
     setupToolBar();
     setupStatusBar();
+    setupTrayIcon();
 
     // 创建中央部件
     QWidget* centralWidget = new QWidget(this);
@@ -162,6 +174,47 @@ void InfoMonitor::setupStatusBar() {
 
     m_itemCountLabel = new QLabel(QString::fromStdWString(L"项目数：0"), this);
     m_statusBar->addPermanentWidget(m_itemCountLabel);
+}
+
+void InfoMonitor::setupTrayIcon() {
+    // 检查系统是否支持托盘
+    if (!QSystemTrayIcon::isSystemTrayAvailable()) {
+        return;
+    }
+
+    // 创建托盘图标
+    m_trayIcon = new QSystemTrayIcon(this);
+
+    // 设置托盘图标 - 使用程序图标
+    QIcon trayIconImage = windowIcon();
+    if (trayIconImage.isNull()) {
+        // 如果窗口图标为空，直接使用资源文件中的图标
+        trayIconImage = QIcon(":/InfoMonitor/res/main.png");
+    }
+
+    m_trayIcon->setIcon(trayIconImage);
+    m_trayIcon->setToolTip(QString::fromStdWString(L"InfoMonitor - 系统监控工具"));
+
+    // 创建托盘菜单
+    m_trayMenu = new QMenu(this);
+
+    m_showAction = new QAction(QString::fromStdWString(L"显示主窗口"), this);
+    connect(m_showAction, &QAction::triggered, this, &InfoMonitor::onShowWindow);
+    m_trayMenu->addAction(m_showAction);
+
+    m_trayMenu->addSeparator();
+
+    m_exitAction = new QAction(QString::fromStdWString(L"退出"), this);
+    connect(m_exitAction, &QAction::triggered, this, &InfoMonitor::onExitApplication);
+    m_trayMenu->addAction(m_exitAction);
+
+    m_trayIcon->setContextMenu(m_trayMenu);
+
+    // 连接托盘图标信号
+    connect(m_trayIcon, &QSystemTrayIcon::activated, this, &InfoMonitor::onTrayIconActivated);
+
+    // 显示托盘图标
+    m_trayIcon->show();
 }
 
 QTableWidget* InfoMonitor::setupTable() {
@@ -495,6 +548,28 @@ void InfoMonitor::onMonitoringUpdate() {
     updateStatusBar();
 }
 
+// 托盘相关槽函数实现
+void InfoMonitor::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason) {
+    switch (reason) {
+    case QSystemTrayIcon::Trigger:
+    case QSystemTrayIcon::DoubleClick:
+        onShowWindow();
+        break;
+    default:
+        break;
+    }
+}
+
+void InfoMonitor::onShowWindow() {
+    show();
+    raise();
+    activateWindow();
+}
+
+void InfoMonitor::onExitApplication() {
+    QApplication::quit();
+}
+
 // 辅助函数实现
 void InfoMonitor::updateCurrentPageUI() {
     QTableWidget* table = getCurrentTable();
@@ -603,5 +678,16 @@ void InfoMonitor::createPageUI(const MonitorPage& page) {
 
     // 添加到标签页
     m_tabWidget->addTab(pageWidget, page.getName());
+}
+
+void InfoMonitor::closeEvent(QCloseEvent* event) {
+    // 如果托盘图标可用，最小化到托盘而不是退出
+    if (m_trayIcon && m_trayIcon->isVisible()) {
+        hide();
+        event->ignore();
+    } else {
+        // 如果托盘不可用，正常退出
+        event->accept();
+    }
 }
 
