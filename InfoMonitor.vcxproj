@@ -15,8 +15,7 @@
     <Keyword>QtVS_v304</Keyword>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">10.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">10.0</WindowsTargetPlatformVersion>
-    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')"
-      >$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="Configuration">
@@ -37,20 +36,17 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
-    <QtInstall>5.15.0_msvc2019</QtInstall>
+    <QtInstall>x86-msvc2019-5.15.0</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="QtSettings">
-    <QtInstall>5.15.0_msvc2019</QtInstall>
+    <QtInstall>x86-msvc2019-5.15.0</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
-  <Target Name="QtMsBuildNotFound"
-    BeforeTargets="CustomBuild;ClCompile"
-    Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
-    <Message Importance="High"
-      Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
   </Target>
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
@@ -96,19 +92,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <QtRcc Include="InfoMonitor.qrc"/>
-    <QtUic Include="InfoMonitor.ui"/>
-    <QtMoc Include="InfoMonitor.h"/>
-    <QtMoc Include="MonitorManager.h"/>
-    <ClCompile Include="InfoMonitor.cpp"/>
-    <ClCompile Include="main.cpp"/>
-    <ClCompile Include="MonitorItem.cpp"/>
-    <ClCompile Include="MonitorPage.cpp"/>
-    <ClCompile Include="ConfigManager.cpp"/>
-    <ClCompile Include="MonitorManager.cpp"/>
-    <ClInclude Include="MonitorItem.h"/>
-    <ClInclude Include="MonitorPage.h"/>
-    <ClInclude Include="ConfigManager.h"/>
+    <QtRcc Include="InfoMonitor.qrc" />
+    <QtUic Include="InfoMonitor.ui" />
+    <QtMoc Include="InfoMonitor.h" />
+    <QtMoc Include="MonitorManager.h" />
+    <ClCompile Include="InfoMonitor.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MonitorItem.cpp" />
+    <ClCompile Include="MonitorPage.cpp" />
+    <ClCompile Include="ConfigManager.cpp" />
+    <ClCompile Include="MonitorManager.cpp" />
+    <ClInclude Include="MonitorItem.h" />
+    <ClInclude Include="MonitorPage.h" />
+    <ClInclude Include="ConfigManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
