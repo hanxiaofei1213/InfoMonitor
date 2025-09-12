@@ -62,7 +62,7 @@ private slots:
     void onItemDoubleClicked(int row, int column);
     void onDeleteItem();
     void onMonitoringUpdate();
-    
+
     // 托盘相关槽函数
     void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void onShowWindow();
@@ -71,7 +71,7 @@ private slots:
 private:
     // 私有构造函数（单例模式）
     InfoMonitor();
-    
+
     void setupUI();
     void setupMenuBar();
     void setupToolBar();
@@ -88,14 +88,12 @@ private:
     void saveConfiguration();
     QTableWidget* getCurrentTable();
     int getCurrentPageIndex();
-    
+
     // 重写关闭事件
     void closeEvent(QCloseEvent* event) override;
 
 private:
     Ui::InfoMonitorClass ui;
-
-    // UI组件
     QTabWidget* m_tabWidget = nullptr;
     QToolBar* m_toolBar = nullptr;
     QStatusBar* m_statusBar = nullptr;
@@ -113,7 +111,7 @@ private:
     QMenu* m_trayMenu = nullptr;
     QAction* m_showAction = nullptr;
     QAction* m_exitAction = nullptr;
-    
+
     // 状态
     bool m_isMonitoring = false;
 };
