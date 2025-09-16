@@ -1,4 +1,4 @@
-﻿#include "ConfigManager.h"
+#include "ConfigManager.h"
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
@@ -7,7 +7,10 @@
 ConfigManager::ConfigManager()
     : m_version("1.0")
     , m_checkInterval(60000) // 默认1分钟
-    , m_autoStart(true) {
+    , m_autoStart(true)
+    , m_windowWidth(0)  // 0表示使用默认值
+    , m_windowHeight(0) // 0表示使用默认值
+{
     m_configFilePath = QCoreApplication::applicationDirPath() + "/config.json";
 }
 
@@ -45,6 +48,8 @@ bool ConfigManager::saveConfiguration() {
     QJsonObject globalSettings;
     globalSettings["checkInterval"] = m_checkInterval;
     globalSettings["autoStart"] = m_autoStart;
+    globalSettings["windowWidth"] = m_windowWidth;
+    globalSettings["windowHeight"] = m_windowHeight;
     config["globalSettings"] = globalSettings;
 
     // 页面列表
@@ -165,6 +170,8 @@ QJsonObject ConfigManager::createDefaultConfig() const {
     QJsonObject globalSettings;
     globalSettings["checkInterval"] = m_checkInterval;
     globalSettings["autoStart"] = m_autoStart;
+    globalSettings["windowWidth"] = m_windowWidth;
+    globalSettings["windowHeight"] = m_windowHeight;
     config["globalSettings"] = globalSettings;
 
     config["pages"] = QJsonArray();
@@ -180,6 +187,8 @@ bool ConfigManager::parseConfiguration(const QJsonObject& config) {
     QJsonObject globalSettings = config["globalSettings"].toObject();
     m_checkInterval = globalSettings["checkInterval"].toInt(60000);
     m_autoStart = globalSettings["autoStart"].toBool(true);
+    m_windowWidth = globalSettings["windowWidth"].toInt(0);
+    m_windowHeight = globalSettings["windowHeight"].toInt(0);
 
     // 解析页面列表
     m_pages.clear();

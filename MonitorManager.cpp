@@ -1,25 +1,24 @@
-#include "MonitorManager.h"
+﻿#include "MonitorManager.h"
 #include <QDebug>
 
 MonitorManager::MonitorManager(QObject* parent)
     : QObject(parent)
-    , m_configManager(new ConfigManager())
-    , m_timer(new QTimer(this))
-    , m_isMonitoring(false)
 {
+    // 创建定时器
+    m_timer = new QTimer(this);
+    
     connect(m_timer, &QTimer::timeout, this, &MonitorManager::onTimerTimeout);
     
     // 加载配置
-    m_configManager->loadConfiguration();
+    m_configManager.loadConfiguration();
     
     // 设置定时器间隔
-    m_timer->setInterval(m_configManager->getCheckInterval());
+    m_timer->setInterval(m_configManager.getCheckInterval());
 }
 
 MonitorManager::~MonitorManager()
 {
     stopMonitoring();
-    delete m_configManager;
 }
 
 void MonitorManager::startMonitoring()
@@ -52,7 +51,7 @@ void MonitorManager::stopMonitoring()
 
 void MonitorManager::refreshAll()
 {
-    auto& pages = m_configManager->getPages();
+    auto& pages = m_configManager.getPages();
     for (int i = 0; i < pages.size(); ++i) {
         pages[i].refreshEnabledItems();
         emit pageUpdated(i);
@@ -61,35 +60,35 @@ void MonitorManager::refreshAll()
     emit itemsUpdated();
     
     // 保存配置（更新最后检查时间）
-    m_configManager->saveConfiguration();
+    m_configManager.saveConfiguration();
 }
 
 void MonitorManager::refreshPage(const QString& pageId)
 {
-    MonitorPage* page = m_configManager->findPage(pageId);
+    MonitorPage* page = m_configManager.findPage(pageId);
     if (page) {
         page->refreshEnabledItems();
-        int pageIndex = m_configManager->findPageIndex(pageId);
+        int pageIndex = m_configManager.findPageIndex(pageId);
         if (pageIndex >= 0) {
             emit pageUpdated(pageIndex);
         }
         emit itemsUpdated();
         
         // 保存配置
-        m_configManager->saveConfiguration();
+        m_configManager.saveConfiguration();
     }
 }
 
 void MonitorManager::refreshPage(int pageIndex)
 {
-    auto& pages = m_configManager->getPages();
+    auto& pages = m_configManager.getPages();
     if (pageIndex >= 0 && pageIndex < pages.size()) {
         pages[pageIndex].refreshEnabledItems();
         emit pageUpdated(pageIndex);
         emit itemsUpdated();
         
         // 保存配置
-        m_configManager->saveConfiguration();
+        m_configManager.saveConfiguration();
     }
 }
 
@@ -101,7 +100,7 @@ QDateTime MonitorManager::getNextCheckTime() const
 int MonitorManager::getTotalItemCount() const
 {
     int count = 0;
-    const auto& pages = m_configManager->getPages();
+    const auto& pages = m_configManager.getPages();
     for (const auto& page : pages) {
         count += page.getItemCount();
     }
@@ -111,7 +110,7 @@ int MonitorManager::getTotalItemCount() const
 int MonitorManager::getEnabledItemCount() const
 {
     int count = 0;
-    const auto& pages = m_configManager->getPages();
+    const auto& pages = m_configManager.getPages();
     for (const auto& page : pages) {
         if (page.isEnabled()) {
             count += page.getEnabledItemCount();
@@ -122,12 +121,12 @@ int MonitorManager::getEnabledItemCount() const
 
 int MonitorManager::getCheckInterval() const
 {
-    return m_configManager->getCheckInterval();
+    return m_configManager.getCheckInterval();
 }
 
 void MonitorManager::setCheckInterval(int interval)
 {
-    m_configManager->setCheckInterval(interval);
+    m_configManager.setCheckInterval(interval);
     m_timer->setInterval(interval);
     
     if (m_isMonitoring) {
@@ -135,7 +134,7 @@ void MonitorManager::setCheckInterval(int interval)
     }
     
     // 保存配置
-    m_configManager->saveConfiguration();
+    m_configManager.saveConfiguration();
 }
 
 void MonitorManager::onTimerTimeout()

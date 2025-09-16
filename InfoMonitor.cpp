@@ -3,6 +3,7 @@
 #include "MonitorPage.h"
 #include "MonitorManager.h"
 #include "ConfigManager.h"
+#include "WindowManager.h"
 #include <QApplication>
 #include <QInputDialog>
 #include <QTableWidgetItem>
@@ -26,6 +27,9 @@ InfoMonitor::InfoMonitor()
     // 先创建监控管理器
     m_monitorManager = new MonitorManager(this);
     m_configManager = m_monitorManager->getConfigManager();
+    
+    // 创建窗口管理器
+    m_windowManager = new WindowManager(this, m_configManager, this);
 
     setupUI();
 
@@ -64,9 +68,9 @@ void InfoMonitor::setupUI() {
     setWindowTitle(QString::fromStdWString(L"InfoMonitor - 系统监控工具"));
     setWindowIcon(QIcon(":/InfoMonitor/res/main.png"));
     setMinimumSize(1000, 600);
-
-    // todo(wangwenxi): 这里的大小从配置文件读取
-    resize(1800, 1200);
+    
+    // 设置窗口大小
+    m_windowManager->setupWindowSize();
 
     setupMenuBar();
     setupToolBar();
@@ -96,6 +100,7 @@ void InfoMonitor::setupUI() {
 
     mainLayout->addWidget(m_tabWidget);
 }
+
 
 void InfoMonitor::setupMenuBar() {
     QMenuBar* menuBar = this->menuBar();
@@ -678,6 +683,11 @@ void InfoMonitor::createPageUI(const MonitorPage& page) {
 }
 
 void InfoMonitor::closeEvent(QCloseEvent* event) {
+    // 保存当前窗口大小
+    if (m_windowManager) {
+        m_windowManager->saveCurrentSize();
+    }
+
 #ifdef DEBUG
     // 如果托盘图标可用，最小化到托盘而不是退出
     if (m_trayIcon && m_trayIcon->isVisible()) {
@@ -687,7 +697,17 @@ void InfoMonitor::closeEvent(QCloseEvent* event) {
         // 如果托盘不可用，正常退出
         event->accept();
     }
-
+#else
+    event->accept();
 #endif
+}
+
+void InfoMonitor::resizeEvent(QResizeEvent* event) {
+    QMainWindow::resizeEvent(event);
+    
+    // 通知窗口管理器处理大小变化
+    if (m_windowManager) {
+        m_windowManager->handleResize();
+    }
 }
 

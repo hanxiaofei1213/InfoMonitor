@@ -24,7 +24,7 @@ public:
     void refreshPage(int pageIndex);
     
     // 配置管理
-    ConfigManager* getConfigManager() { return m_configManager; }
+    ConfigManager* getConfigManager() { return &m_configManager; }
     
     // 状态信息
     QDateTime getNextCheckTime() const;
@@ -46,8 +46,8 @@ private:
     void updateNextCheckTime();
 
 private:
-    ConfigManager* m_configManager;
-    QTimer* m_timer;
-    bool m_isMonitoring;
+    ConfigManager m_configManager;
+    QTimer* m_timer = nullptr;
+    bool m_isMonitoring = false;
     QDateTime m_nextCheckTime;
 };

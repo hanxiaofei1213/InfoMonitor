@@ -31,6 +31,21 @@ public:
         m_autoStart = autoStart;
     }
 
+    // 窗口大小设置
+    int getWindowWidth() const {
+        return m_windowWidth;
+    }
+    void setWindowWidth(int width) {
+        m_windowWidth = width;
+    }
+
+    int getWindowHeight() const {
+        return m_windowHeight;
+    }
+    void setWindowHeight(int height) {
+        m_windowHeight = height;
+    }
+
     // 页面管理
     QList<MonitorPage>& getPages() {
         return m_pages;
@@ -62,5 +77,7 @@ private:
     QString m_version;
     int m_checkInterval;        // 检查间隔（毫秒）
     bool m_autoStart;           // 自动开始监控
+    int m_windowWidth;          // 窗口宽度
+    int m_windowHeight;         // 窗口高度
     QList<MonitorPage> m_pages; // 监控页面列表
 };

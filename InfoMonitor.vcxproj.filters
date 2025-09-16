@@ -52,6 +52,9 @@
     <ClCompile Include="MonitorManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MonitorItem.h">
@@ -67,6 +70,9 @@
   <ItemGroup>
     <QtMoc Include="MonitorManager.h">
       <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="WindowManager.h">
+      <Filter>Source Files</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

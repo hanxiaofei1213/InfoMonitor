@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <QMainWindow>
 #include <QTabWidget>
@@ -36,6 +36,7 @@ class MonitorItem;
 class MonitorPage;
 class MonitorManager;
 class ConfigManager;
+class WindowManager;
 
 class InfoMonitor : public QMainWindow {
     Q_OBJECT
@@ -85,8 +86,9 @@ protected:
     QTableWidget* getCurrentTable();
     int getCurrentPageIndex();
 
-    // 重写关闭事件
-    void closeEvent(QCloseEvent* event) override;
+    // 重写事件
+    virtual void closeEvent(QCloseEvent* event) override;
+    virtual void resizeEvent(QResizeEvent* event) override;
 
 private:
     Ui::InfoMonitorClass ui;
@@ -101,6 +103,7 @@ private:
     // 业务组件
     MonitorManager* m_monitorManager = nullptr;
     ConfigManager* m_configManager = nullptr;
+    WindowManager* m_windowManager = nullptr;
 
     // 托盘相关组件
     QSystemTrayIcon* m_trayIcon = nullptr;
