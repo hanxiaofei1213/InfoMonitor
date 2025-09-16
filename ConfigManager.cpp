@@ -1,4 +1,4 @@
-#include "ConfigManager.h"
+﻿#include "ConfigManager.h"
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
@@ -148,7 +148,7 @@ void ConfigManager::createDefaultConfiguration() {
 
     // 添加一些示例项目
     MonitorItem registryItem("", MonitorItem::Registry, QString::fromStdWString(L"系统版本"),
-        "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName");
+        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName");
     MonitorItem fileItem("", MonitorItem::File, QString::fromStdWString(L"系统文件"),
         "C:\\Windows\\System32\\kernel32.dll");
 

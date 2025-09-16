@@ -38,7 +38,7 @@ InfoMonitor::InfoMonitor()
             updateCurrentPageUI();
         }
         updateStatusBar();
-        });
+    });
 
     // 加载配置并更新UI
     loadConfiguration();
@@ -95,11 +95,6 @@ void InfoMonitor::setupUI() {
         });
 
     mainLayout->addWidget(m_tabWidget);
-
-    // 创建默认页面（如果没有页面的话）
-    if (m_tabWidget->count() == 0) {
-        createNewPage(QString::fromStdWString(L"默认页面"));
-    }
 }
 
 void InfoMonitor::setupMenuBar() {
@@ -286,7 +281,7 @@ void InfoMonitor::populateTableWithItems(QTableWidget* table, const QList<Monito
                     saveConfiguration();
                 }
             }
-            });
+        });
 
         connect(typeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this, row](int index) {
             int pageIndex = getCurrentPageIndex();
@@ -298,7 +293,7 @@ void InfoMonitor::populateTableWithItems(QTableWidget* table, const QList<Monito
                     saveConfiguration();
                 }
             }
-            });
+        });
     }
 }
 
