@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
 
     // 设置应用程序信息
     app.setApplicationName("InfoMonitor");
-    app.setApplicationVersion("1.0");
+    app.setApplicationVersion("0.1");
     app.setOrganizationName("InfoMonitor");
 
     // 单例检测

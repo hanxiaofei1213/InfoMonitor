@@ -32,7 +32,6 @@
 #include <QCloseEvent>
 #include "ui_InfoMonitor.h"
 
-// 前向声明
 class MonitorItem;
 class MonitorPage;
 class MonitorManager;
@@ -42,15 +41,13 @@ class InfoMonitor : public QMainWindow {
     Q_OBJECT
 
 public:
-    // 单例模式
     static InfoMonitor& getInstance();
     ~InfoMonitor();
 
-    // 删除拷贝构造和赋值操作
     InfoMonitor(const InfoMonitor&) = delete;
     InfoMonitor& operator=(const InfoMonitor&) = delete;
 
-private slots:
+protected slots:
     void onAddPage();
     void onAddItem();
     void onRefreshPage();
@@ -68,8 +65,7 @@ private slots:
     void onShowWindow();
     void onExitApplication();
 
-private:
-    // 私有构造函数（单例模式）
+protected:
     InfoMonitor();
 
     void setupUI();

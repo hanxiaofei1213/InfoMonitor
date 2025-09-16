@@ -64,7 +64,9 @@ void InfoMonitor::setupUI() {
     setWindowTitle(QString::fromStdWString(L"InfoMonitor - 系统监控工具"));
     setWindowIcon(QIcon(":/InfoMonitor/res/main.png"));
     setMinimumSize(1000, 600);
-    resize(1200, 800);
+
+    // todo(wangwenxi): 这里的大小从配置文件读取
+    resize(1800, 1200);
 
     setupMenuBar();
     setupToolBar();
@@ -681,6 +683,7 @@ void InfoMonitor::createPageUI(const MonitorPage& page) {
 }
 
 void InfoMonitor::closeEvent(QCloseEvent* event) {
+#ifdef DEBUG
     // 如果托盘图标可用，最小化到托盘而不是退出
     if (m_trayIcon && m_trayIcon->isVisible()) {
         hide();
@@ -689,5 +692,7 @@ void InfoMonitor::closeEvent(QCloseEvent* event) {
         // 如果托盘不可用，正常退出
         event->accept();
     }
+
+#endif
 }
 
