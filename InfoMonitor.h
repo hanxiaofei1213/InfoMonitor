@@ -84,14 +84,20 @@ protected:
     void loadConfiguration();
     void saveConfiguration();
     QTableWidget* getCurrentTable();
-    int getCurrentPageIndex();
 
     // 重写事件
     virtual void closeEvent(QCloseEvent* event) override;
     virtual void resizeEvent(QResizeEvent* event) override;
 
+    // 保存列宽
+    void saveColumnWidthsOnExit();
+
+    // 表格列配置结构体
+
+    // 获取当前页面索引
+    int getCurrentPageIndex() const;
+
 private:
-    Ui::InfoMonitorClass ui;
     QTabWidget* m_tabWidget = nullptr;
     QToolBar* m_toolBar = nullptr;
     QStatusBar* m_statusBar = nullptr;
@@ -115,3 +121,9 @@ private:
     bool m_isMonitoring = false;
 };
 
+
+struct ColumnConfig {
+    int index = 0;
+    int width = 0;
+    bool fixed = false;
+};

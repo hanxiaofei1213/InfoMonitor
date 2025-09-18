@@ -16,6 +16,10 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QIcon>
+#include <QTableWidget>
+
+// todo(wangwenxi): 时间到了能刷新一下UI
+
 
 InfoMonitor& InfoMonitor::getInstance() {
     static InfoMonitor instance;
@@ -224,19 +228,45 @@ QTableWidget* InfoMonitor::setupTable() {
     QStringList headers = { QString::fromStdWString(L"启用"), QString::fromStdWString(L"类型"), QString::fromStdWString(L"名称"), QString::fromStdWString(L"路径"), QString::fromStdWString(L"状态"), QString::fromStdWString(L"上次检查时间"), QString::fromStdWString(L"操作") };
     table->setHorizontalHeaderLabels(headers);
 
+    // 默认列配置
+    const ColumnConfig defaultColumns[] = {
+        {0, 60,  false},  // 启用列
+        {1, 120, true},   // 类型列（固定宽度）
+        {2, 150, false},  // 名称列
+        {3, 400, false},  // 路径列
+        {4, 200, false},  // 状态列
+        {5, 150, false},  // 时间列
+        {6, 80,  true}    // 操作列（固定宽度）
+    };
+    
     // 设置表格属性
     table->setSelectionBehavior(QAbstractItemView::SelectRows);
     table->setAlternatingRowColors(true);
     table->horizontalHeader()->setStretchLastSection(false);
-    table->horizontalHeader()->resizeSection(0, 60);  // 启用列
-    table->horizontalHeader()->resizeSection(1, 100); // 类型列
-    table->horizontalHeader()->resizeSection(2, 150); // 名称列
-    table->horizontalHeader()->resizeSection(3, 300); // 路径列
-    table->horizontalHeader()->resizeSection(4, 200); // 状态列
-    table->horizontalHeader()->resizeSection(5, 150); // 时间列
-    table->horizontalHeader()->resizeSection(6, 80);  // 操作列
-    table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Fixed); // 类型列固定宽度
-    table->horizontalHeader()->setSectionResizeMode(6, QHeaderView::Fixed); // 操作列固定宽度
+    
+    // 获取当前页面索引
+    int currentPageIndex = getCurrentPageIndex();
+    
+    // 配置所有列 - 使用循环消除重复代码
+    for (const auto& column : defaultColumns) {
+        // 从配置中获取列宽，如果没有配置则使用默认值
+        int width = column.width;
+        if (currentPageIndex >= 0) {
+            auto& pages = m_configManager->getPages();
+            if (currentPageIndex < pages.size()) {
+                width = pages[currentPageIndex].getColumnWidth(column.index, column.width);
+            }
+        }
+        
+        table->horizontalHeader()->resizeSection(column.index, width);
+        if (column.fixed) {
+            table->horizontalHeader()->setSectionResizeMode(column.index, QHeaderView::Fixed);
+        } else {
+            table->horizontalHeader()->setSectionResizeMode(column.index, QHeaderView::Interactive);
+        }
+    }
+
+    // 不再连接列宽变化信号，而是在程序退出时统一保存
 
     connect(table, &QTableWidget::cellChanged, this, &InfoMonitor::onItemEnabledChanged);
     connect(table, &QTableWidget::cellDoubleClicked, this, &InfoMonitor::onItemDoubleClicked);
@@ -655,9 +685,20 @@ void InfoMonitor::loadConfiguration() {
 }
 
 void InfoMonitor::saveConfiguration() {
-    if (m_configManager) {
-        m_configManager->saveConfiguration();
+    // 防止频繁保存配置
+    static QTimer* saveTimer = nullptr;
+    if (!saveTimer) {
+        saveTimer = new QTimer(this);
+        saveTimer->setSingleShot(true);
+        connect(saveTimer, &QTimer::timeout, this, [this]() {
+            m_configManager->saveConfiguration();
+        });
     }
+    
+    if (saveTimer->isActive()) {
+        saveTimer->stop();
+    }
+    saveTimer->start(500); // 延迟500ms保存，避免频繁写入
 }
 
 QTableWidget* InfoMonitor::getCurrentTable() {
@@ -670,8 +711,11 @@ QTableWidget* InfoMonitor::getCurrentTable() {
     return currentWidget->findChild<QTableWidget*>();
 }
 
-int InfoMonitor::getCurrentPageIndex() {
-    return m_tabWidget->currentIndex();
+int InfoMonitor::getCurrentPageIndex() const {
+    if (m_tabWidget) {
+        return m_tabWidget->currentIndex();
+    }
+    return -1;
 }
 
 void InfoMonitor::createPageUI(const MonitorPage& page) {
@@ -687,8 +731,14 @@ void InfoMonitor::closeEvent(QCloseEvent* event) {
     if (m_windowManager) {
         m_windowManager->saveCurrentSize();
     }
+    
+    // 在程序退出时保存所有表格的列宽
+    saveColumnWidthsOnExit();
 
-#ifdef DEBUG
+    // 保存配置
+    saveConfiguration();
+
+#ifndef _DEBUG
     // 如果托盘图标可用，最小化到托盘而不是退出
     if (m_trayIcon && m_trayIcon->isVisible()) {
         hide();
@@ -708,6 +758,26 @@ void InfoMonitor::resizeEvent(QResizeEvent* event) {
     // 通知窗口管理器处理大小变化
     if (m_windowManager) {
         m_windowManager->handleResize();
+    }
+}
+
+
+void InfoMonitor::saveColumnWidthsOnExit()
+{
+    // 遍历所有页面的表格，保存列宽配置
+    auto& pages = m_configManager->getPages();
+    for (int i = 0; i < m_tabWidget->count(); ++i) {
+        QWidget* widget = m_tabWidget->widget(i);
+        QTableWidget* table = widget->findChild<QTableWidget*>();
+        if (table) {
+            // 保存当前表格的所有列宽
+            for (int col = 0; col < table->columnCount(); ++col) {
+                int width = table->columnWidth(col);
+                if (i < pages.size()) {
+                    pages[i].setColumnWidth(col, width);
+                }
+            }
+        }
     }
 }
 

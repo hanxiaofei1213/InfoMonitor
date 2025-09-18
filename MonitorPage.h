@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <QString>
 #include <QList>
@@ -25,6 +25,10 @@ public:
     QList<MonitorItem>& getItems() { return m_items; }
     const QList<MonitorItem>& getItems() const { return m_items; }
     
+    // 表格列宽配置
+    void setColumnWidth(int columnIndex, int width);
+    int getColumnWidth(int columnIndex, int defaultWidth) const;
+    
     // 项目管理
     void addItem(const MonitorItem& item);
     void removeItem(const QString& itemId);
@@ -49,4 +53,7 @@ private:
     QString m_name;
     bool m_enabled;
     QList<MonitorItem> m_items;
+    
+    // 表格列宽配置，存储每列的宽度
+    QMap<int, int> m_columnWidths;
 };

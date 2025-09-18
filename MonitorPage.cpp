@@ -62,6 +62,19 @@ void MonitorPage::clearItems()
     m_items.clear();
 }
 
+void MonitorPage::setColumnWidth(int columnIndex, int width)
+{
+    m_columnWidths[columnIndex] = width;
+}
+
+int MonitorPage::getColumnWidth(int columnIndex, int defaultWidth) const
+{
+    if (m_columnWidths.contains(columnIndex)) {
+        return m_columnWidths[columnIndex];
+    }
+    return defaultWidth;
+}
+
 int MonitorPage::getEnabledItemCount() const
 {
     int count = 0;
@@ -106,6 +119,13 @@ QJsonObject MonitorPage::toJson() const
     }
     json["items"] = itemsArray;
     
+    // 保存表格列宽配置
+    QJsonObject columnWidths;
+    for (auto it = m_columnWidths.constBegin(); it != m_columnWidths.constEnd(); ++it) {
+        columnWidths[QString::number(it.key())] = it.value();
+    }
+    json["columnWidths"] = columnWidths;
+    
     return json;
 }
 
@@ -121,6 +141,19 @@ void MonitorPage::fromJson(const QJsonObject& json)
         MonitorItem item;
         item.fromJson(value.toObject());
         m_items.append(item);
+    }
+    
+    // 加载表格列宽配置
+    m_columnWidths.clear();
+    if (json.contains("columnWidths") && json["columnWidths"].isObject()) {
+        QJsonObject columnWidths = json["columnWidths"].toObject();
+        for (auto it = columnWidths.constBegin(); it != columnWidths.constEnd(); ++it) {
+            bool ok;
+            int columnIndex = it.key().toInt(&ok);
+            if (ok) {
+                m_columnWidths[columnIndex] = it.value().toInt();
+            }
+        }
     }
 }
 
