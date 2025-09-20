@@ -37,11 +37,23 @@ class MonitorPage;
 class MonitorManager;
 class ConfigManager;
 class WindowManager;
+class MonitorPageWidget;
 
 class InfoMonitor : public QMainWindow {
     Q_OBJECT
 
 public:
+    // 表格列索引枚举
+    enum TableColumnIndex {
+        COLUMN_ENABLED = 0,    // 启用列
+        COLUMN_TYPE = 1,       // 类型列
+        COLUMN_NAME = 2,       // 名称列
+        COLUMN_PATH = 3,       // 路径列
+        COLUMN_STATUS = 4,     // 状态列
+        COLUMN_LAST_CHECK = 5, // 上次检查时间列
+        COLUMN_ACTION = 6      // 操作列
+    };
+
     static InfoMonitor& getInstance();
     ~InfoMonitor();
 
@@ -120,6 +132,7 @@ private:
     // 状态
     bool m_isMonitoring = false;
 };
+
 
 
 struct ColumnConfig {

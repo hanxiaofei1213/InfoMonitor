@@ -52,10 +52,10 @@ protected:
 
 private:
     QString m_configFilePath;
-    QString m_version;
-    int m_checkInterval;        // 检查间隔（毫秒）
-    bool m_autoStart;           // 自动开始监控
-    int m_windowWidth;          // 窗口宽度
-    int m_windowHeight;         // 窗口高度
-    QList<MonitorPage> m_pages; // 监控页面列表
+    QString m_version = "1.0";
+    int m_checkInterval = 60000;
+    bool m_autoStart = true;
+    int m_windowWidth = 0;
+    int m_windowHeight = 0;
+    QList<MonitorPage> m_pages;
 };

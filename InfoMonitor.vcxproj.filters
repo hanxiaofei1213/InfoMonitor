@@ -21,6 +21,9 @@
       <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
       <Extensions>ts</Extensions>
     </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{91d5bfa0-b6a4-4528-91ab-5e9abf6182fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="InfoMonitor.qrc">
@@ -55,6 +58,9 @@
     <ClCompile Include="WindowManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MonitorPageWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MonitorItem.h">
@@ -74,5 +80,13 @@
     <QtMoc Include="WindowManager.h">
       <Filter>Source Files</Filter>
     </QtMoc>
+    <QtMoc Include="MonitorPageWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="MonitorPageWidget.ui">
+      <Filter>Source Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

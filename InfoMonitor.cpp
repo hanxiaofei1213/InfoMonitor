@@ -18,6 +18,7 @@
 #include <QIcon>
 #include <QTableWidget>
 #include <winnt.h>
+#include "MonitorPageWidget.h"
 
 // todo(wangwenxi): 时间到了能刷新一下UI
 
@@ -235,13 +236,13 @@ QTableWidget* InfoMonitor::setupTable(int nPageIndex) {
 
     // 默认列配置
     const ColumnConfig defaultColumns[] = {
-        {0, 60,  false},  // 启用列
-        {1, 120, true},   // 类型列（固定宽度）
-        {2, 150, false},  // 名称列
-        {3, 400, false},  // 路径列
-        {4, 200, false},  // 状态列
-        {5, 150, false},  // 时间列
-        {6, 80,  true}    // 操作列（固定宽度）
+        {COLUMN_ENABLED, 60,  false},     // 启用列
+        {COLUMN_TYPE, 120, true},         // 类型列（固定宽度）
+        {COLUMN_NAME, 150, false},        // 名称列
+        {COLUMN_PATH, 400, false},        // 路径列
+        {COLUMN_STATUS, 200, false},      // 状态列
+        {COLUMN_LAST_CHECK, 150, false},  // 上次检查时间列
+        {COLUMN_ACTION, 80,  true}        // 操作列（固定宽度）
     };
     
     // 设置表格属性
@@ -334,50 +335,28 @@ void InfoMonitor::populateTableWithItems(QTableWidget* table, const QList<Monito
 }
 
 QWidget* InfoMonitor::createPageWidget(int nPageIndex, const QString& pageName, bool enabled, const QList<MonitorItem>& items) {
-    QWidget* pageWidget = new QWidget();
-    QVBoxLayout* pageLayout = new QVBoxLayout(pageWidget);
+    if (nPageIndex < 0) {
+        return nullptr;
+    }
 
-    // 页面控制栏
-    QHBoxLayout* controlLayout = new QHBoxLayout();
-
-    // 页面名称编辑
-    QLineEdit* nameEdit = new QLineEdit(pageName, this);
-    nameEdit->setMaximumWidth(200);
-    connect(nameEdit, &QLineEdit::textChanged, this, &InfoMonitor::onPageNameChanged);
-    controlLayout->addWidget(new QLabel(QString::fromStdWString(L"页面名称:")));
-    controlLayout->addWidget(nameEdit);
-
-    controlLayout->addSpacing(20);
-
-    // 页面总开关
-    QCheckBox* enabledCheck = new QCheckBox(QString::fromStdWString(L"启用此页面"), this);
-    enabledCheck->setChecked(enabled);
-    connect(enabledCheck, &QCheckBox::toggled, this, &InfoMonitor::onPageEnabledChanged);
-    controlLayout->addWidget(enabledCheck);
-
-    controlLayout->addSpacing(20);
-
-    // 强制刷新按钮
-    QPushButton* refreshBtn = new QPushButton(QString::fromStdWString(L"强制刷新"), this);
-    connect(refreshBtn, &QPushButton::clicked, this, &InfoMonitor::onRefreshPage);
-    controlLayout->addWidget(refreshBtn);
-
-    // 添加项目按钮
-    QPushButton* addItemBtn = new QPushButton(QString::fromStdWString(L"添加项目"), this);
-    connect(addItemBtn, &QPushButton::clicked, this, &InfoMonitor::onAddItem);
-    controlLayout->addWidget(addItemBtn);
-
-    controlLayout->addStretch();
-
-    pageLayout->addLayout(controlLayout);
-
-    // 创建表格并传递页面索引
-    QTableWidget* table = setupTable(nPageIndex);
-    populateTableWithItems(table, items);
-
-    pageLayout->addWidget(table);
-
-    return pageWidget;
+    // 创建基于UI文件的页面部件
+    MonitorPageWidget* pPageWidget = new MonitorPageWidget(nPageIndex, pageName, enabled, items, this);
+    
+    // todo(wangwenxi)：这里槽函数挪到page里面去
+    // 连接页面信号到主窗口槽函数
+    connect(pPageWidget, &MonitorPageWidget::pageNameChanged, this, &InfoMonitor::onPageNameChanged);
+    connect(pPageWidget, &MonitorPageWidget::pageEnabledChanged, this, &InfoMonitor::onPageEnabledChanged);
+    connect(pPageWidget, &MonitorPageWidget::refreshRequested, this, &InfoMonitor::onRefreshPage);
+    connect(pPageWidget, &MonitorPageWidget::addItemRequested, this, &InfoMonitor::onAddItem);
+    
+    // 获取表格控件并连接相关信号
+    QTableWidget* tableWidget = pPageWidget->getTableWidget();
+    if (tableWidget) {
+        connect(tableWidget, &QTableWidget::cellChanged, this, &InfoMonitor::onItemEnabledChanged);
+        connect(tableWidget, &QTableWidget::cellDoubleClicked, this, &InfoMonitor::onItemDoubleClicked);
+    }
+    
+    return pPageWidget;
 }
 
 void InfoMonitor::createNewPage(const QString& name) {
@@ -389,10 +368,10 @@ void InfoMonitor::createNewPage(const QString& name) {
     m_configManager->addPage(page);
 
     // 创建页面UI
-    QWidget* pageWidget = createPageWidget(0, pageName, true, QList<MonitorItem>());
+    QWidget* pPageWidget = createPageWidget(0, pageName, true, QList<MonitorItem>());
 
     // 添加到标签页
-    int tabIndex = m_tabWidget->addTab(pageWidget, pageName);
+    int tabIndex = m_tabWidget->addTab(pPageWidget, pageName);
     m_tabWidget->setCurrentIndex(tabIndex);
 
     saveConfiguration();
@@ -711,11 +690,12 @@ int InfoMonitor::getCurrentPageIndex() const {
 }
 
 void InfoMonitor::createPageUI(int nPageIndex, const MonitorPage& page) {
-    // 使用公共函数创建页面UI
-    QWidget* pageWidget = createPageWidget(nPageIndex, page.getName(), page.isEnabled(), page.getItems());
+    QWidget* pPageWidget = createPageWidget(nPageIndex, page.getName(), page.isEnabled(), page.getItems());
+    if (!pPageWidget) {
+        return;
+    }
 
-    // 添加到标签页
-    m_tabWidget->addTab(pageWidget, page.getName());
+    m_tabWidget->addTab(pPageWidget, page.getName());
 }
 
 void InfoMonitor::closeEvent(QCloseEvent* event) {

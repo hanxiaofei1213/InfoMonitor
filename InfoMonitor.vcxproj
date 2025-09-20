@@ -92,7 +92,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MonitorPageWidget.cpp" />
     <ClCompile Include="WindowManager.cpp" />
+    <QtMoc Include="MonitorPageWidget.h" />
     <QtMoc Include="WindowManager.h" />
     <QtRcc Include="InfoMonitor.qrc" />
     <QtUic Include="InfoMonitor.ui" />
@@ -107,6 +109,7 @@
     <ClInclude Include="MonitorItem.h" />
     <ClInclude Include="MonitorPage.h" />
     <ClInclude Include="ConfigManager.h" />
+    <QtUic Include="MonitorPageWidget.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

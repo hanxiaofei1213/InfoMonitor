@@ -6,13 +6,7 @@
 
 // todo(wangwenxi)：弄一个日志，保存到本地
 
-ConfigManager::ConfigManager()
-    : m_version("1.0")
-    , m_checkInterval(60000) // 默认1分钟
-    , m_autoStart(true)
-    , m_windowWidth(0)  // 0表示使用默认值
-    , m_windowHeight(0) // 0表示使用默认值
-{
+ConfigManager::ConfigManager() {
     m_configFilePath = QCoreApplication::applicationDirPath() + "/config.json";
 }
 
@@ -79,7 +73,6 @@ QString ConfigManager::getConfigFilePath() const {
     return m_configFilePath;
 }
 
-// 全局设置
 int ConfigManager::getCheckInterval() const {
     return m_checkInterval;
 }
@@ -96,7 +89,6 @@ void ConfigManager::setAutoStart(bool autoStart) {
     m_autoStart = autoStart;
 }
 
-// 窗口大小设置
 int ConfigManager::getWindowWidth() const {
     return m_windowWidth;
 }
