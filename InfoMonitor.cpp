@@ -17,6 +17,7 @@
 #include <QPainter>
 #include <QIcon>
 #include <QTableWidget>
+#include <winnt.h>
 
 // todo(wangwenxi): 时间到了能刷新一下UI
 
@@ -223,7 +224,11 @@ void InfoMonitor::setupTrayIcon() {
     m_trayIcon->show();
 }
 
-QTableWidget* InfoMonitor::setupTable() {
+QTableWidget* InfoMonitor::setupTable(int nPageIndex) {
+    if (nPageIndex < 0 || nPageIndex >= m_configManager->getPages().size()) {
+        return nullptr;
+    }
+
     QTableWidget* table = new QTableWidget(0, 7, this);
     QStringList headers = { QString::fromStdWString(L"启用"), QString::fromStdWString(L"类型"), QString::fromStdWString(L"名称"), QString::fromStdWString(L"路径"), QString::fromStdWString(L"状态"), QString::fromStdWString(L"上次检查时间"), QString::fromStdWString(L"操作") };
     table->setHorizontalHeaderLabels(headers);
@@ -244,18 +249,13 @@ QTableWidget* InfoMonitor::setupTable() {
     table->setAlternatingRowColors(true);
     table->horizontalHeader()->setStretchLastSection(false);
     
-    // 获取当前页面索引
-    int currentPageIndex = getCurrentPageIndex();
-    
     // 配置所有列 - 使用循环消除重复代码
     for (const auto& column : defaultColumns) {
         // 从配置中获取列宽，如果没有配置则使用默认值
         int width = column.width;
-        if (currentPageIndex >= 0) {
-            auto& pages = m_configManager->getPages();
-            if (currentPageIndex < pages.size()) {
-                width = pages[currentPageIndex].getColumnWidth(column.index, column.width);
-            }
+        auto& pages = m_configManager->getPages();
+        if (nPageIndex < pages.size()) {
+            width = pages[nPageIndex].getColumnWidth(column.index, column.width);
         }
         
         table->horizontalHeader()->resizeSection(column.index, width);
@@ -274,6 +274,7 @@ QTableWidget* InfoMonitor::setupTable() {
     return table;
 }
 
+// todo(wangwenxi)：这里看看能不能用ui文件
 void InfoMonitor::populateTableWithItems(QTableWidget* table, const QList<MonitorItem>& items) {
     table->setRowCount(items.size());
 
@@ -332,7 +333,7 @@ void InfoMonitor::populateTableWithItems(QTableWidget* table, const QList<Monito
     }
 }
 
-QWidget* InfoMonitor::createPageWidget(const QString& pageName, bool enabled, const QList<MonitorItem>& items) {
+QWidget* InfoMonitor::createPageWidget(int nPageIndex, const QString& pageName, bool enabled, const QList<MonitorItem>& items) {
     QWidget* pageWidget = new QWidget();
     QVBoxLayout* pageLayout = new QVBoxLayout(pageWidget);
 
@@ -370,8 +371,8 @@ QWidget* InfoMonitor::createPageWidget(const QString& pageName, bool enabled, co
 
     pageLayout->addLayout(controlLayout);
 
-    // 创建表格
-    QTableWidget* table = setupTable();
+    // 创建表格并传递页面索引
+    QTableWidget* table = setupTable(nPageIndex);
     populateTableWithItems(table, items);
 
     pageLayout->addWidget(table);
@@ -388,7 +389,7 @@ void InfoMonitor::createNewPage(const QString& name) {
     m_configManager->addPage(page);
 
     // 创建页面UI
-    QWidget* pageWidget = createPageWidget(pageName, true, QList<MonitorItem>());
+    QWidget* pageWidget = createPageWidget(0, pageName, true, QList<MonitorItem>());
 
     // 添加到标签页
     int tabIndex = m_tabWidget->addTab(pageWidget, pageName);
@@ -674,8 +675,8 @@ void InfoMonitor::loadConfiguration() {
     }
 
     // 重新创建标签页
-    for (const auto& page : pages) {
-        createPageUI(page);
+    for (int nIndex = 0; nIndex < pages.size(); ++nIndex) {
+        createPageUI(nIndex, pages[nIndex]);
     }
 
     // 如果没有页面，创建默认页面
@@ -685,20 +686,11 @@ void InfoMonitor::loadConfiguration() {
 }
 
 void InfoMonitor::saveConfiguration() {
-    // 防止频繁保存配置
-    static QTimer* saveTimer = nullptr;
-    if (!saveTimer) {
-        saveTimer = new QTimer(this);
-        saveTimer->setSingleShot(true);
-        connect(saveTimer, &QTimer::timeout, this, [this]() {
-            m_configManager->saveConfiguration();
-        });
+    if (!m_configManager) {
+        return;
     }
-    
-    if (saveTimer->isActive()) {
-        saveTimer->stop();
-    }
-    saveTimer->start(500); // 延迟500ms保存，避免频繁写入
+
+    m_configManager->saveConfiguration();
 }
 
 QTableWidget* InfoMonitor::getCurrentTable() {
@@ -718,9 +710,9 @@ int InfoMonitor::getCurrentPageIndex() const {
     return -1;
 }
 
-void InfoMonitor::createPageUI(const MonitorPage& page) {
+void InfoMonitor::createPageUI(int nPageIndex, const MonitorPage& page) {
     // 使用公共函数创建页面UI
-    QWidget* pageWidget = createPageWidget(page.getName(), page.isEnabled(), page.getItems());
+    QWidget* pageWidget = createPageWidget(nPageIndex, page.getName(), page.isEnabled(), page.getItems());
 
     // 添加到标签页
     m_tabWidget->addTab(pageWidget, page.getName());
@@ -760,7 +752,6 @@ void InfoMonitor::resizeEvent(QResizeEvent* event) {
         m_windowManager->handleResize();
     }
 }
-
 
 void InfoMonitor::saveColumnWidthsOnExit()
 {

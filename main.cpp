@@ -8,11 +8,12 @@
 
 // todo(wangwenxi): 注册表最好能支持简单修改
 
+// todo(wangwenxi)：加一个单元测试的工程
+
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
-    // 设置应用程序信息
     app.setApplicationName("InfoMonitor");
     app.setApplicationVersion("0.1");
     app.setOrganizationName("InfoMonitor");

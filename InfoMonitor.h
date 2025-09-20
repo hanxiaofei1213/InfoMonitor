@@ -75,9 +75,9 @@ protected:
     void setupStatusBar();
     void setupTrayIcon();  // 设置托盘图标
     void createNewPage(const QString& name = QString());
-    void createPageUI(const MonitorPage& page);
-    QWidget* createPageWidget(const QString& pageName, bool enabled, const QList<MonitorItem>& items = QList<MonitorItem>());
-    QTableWidget* setupTable();
+    void createPageUI(int nPageIndex, const MonitorPage& page);
+    QWidget* createPageWidget(int nPageIndex, const QString& pageName, bool enabled, const QList<MonitorItem>& items = QList<MonitorItem>());
+    QTableWidget* setupTable(int pageIndex = -1);
     void populateTableWithItems(QTableWidget* table, const QList<MonitorItem>& items);
     void updateCurrentPageUI();
     void updateStatusBar();

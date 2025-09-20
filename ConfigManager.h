@@ -17,42 +17,22 @@ public:
     QString getConfigFilePath() const;
 
     // 全局设置
-    int getCheckInterval() const {
-        return m_checkInterval;
-    }
-    void setCheckInterval(int interval) {
-        m_checkInterval = interval;
-    }
+    int getCheckInterval() const;
+    void setCheckInterval(int interval);
 
-    bool isAutoStart() const {
-        return m_autoStart;
-    }
-    void setAutoStart(bool autoStart) {
-        m_autoStart = autoStart;
-    }
+    bool isAutoStart() const;
+    void setAutoStart(bool autoStart);
 
     // 窗口大小设置
-    int getWindowWidth() const {
-        return m_windowWidth;
-    }
-    void setWindowWidth(int width) {
-        m_windowWidth = width;
-    }
+    int getWindowWidth() const;
+    void setWindowWidth(int width);
 
-    int getWindowHeight() const {
-        return m_windowHeight;
-    }
-    void setWindowHeight(int height) {
-        m_windowHeight = height;
-    }
+    int getWindowHeight() const;
+    void setWindowHeight(int height);
 
     // 页面管理
-    QList<MonitorPage>& getPages() {
-        return m_pages;
-    }
-    const QList<MonitorPage>& getPages() const {
-        return m_pages;
-    }
+    QList<MonitorPage>& getPages();
+    const QList<MonitorPage>& getPages() const;
 
     void addPage(const MonitorPage& page);
     void removePage(const QString& pageId);
@@ -60,15 +40,13 @@ public:
     MonitorPage* findPage(const QString& pageId);
     int findPageIndex(const QString& pageId) const;
     void clearPages();
-    int getPageCount() const {
-        return m_pages.size();
-    }
+    int getPageCount() const;
 
     // 配置验证和修复
     bool validateConfiguration() const;
     void createDefaultConfiguration();
 
-private:
+protected:
     QJsonObject createDefaultConfig() const;
     bool parseConfiguration(const QJsonObject& config);
 
