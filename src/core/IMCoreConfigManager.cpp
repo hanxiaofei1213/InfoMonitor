@@ -1,16 +1,21 @@
-#include "ConfigManager.h"
+#include "IMCoreConfigManager.h"
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
 #include <QDebug>
 
-// todo(wangwenxi)：弄一个日志，保存到本地
 
-ConfigManager::ConfigManager() {
-    m_configFilePath = QCoreApplication::applicationDirPath() + "/config.json";
+/*
+IMCoreConfigManager::IMCoreConfigManager() {
+    m_configFilePath = QCoreApplication::applicationDirPath() + "/coreConfig.json";
+    loadConfiguration();
 }
 
-bool ConfigManager::loadConfiguration() {
+IMCoreConfigManager::~IMCoreConfigManager() {
+    saveConfiguration();
+}
+
+bool IMCoreConfigManager::loadConfiguration() {
     QFile file(m_configFilePath);
     if (!file.exists()) {
         // 配置文件不存在，创建默认配置
@@ -36,7 +41,7 @@ bool ConfigManager::loadConfiguration() {
     return parseConfiguration(doc.object());
 }
 
-bool ConfigManager::saveConfiguration() {
+bool IMCoreConfigManager::saveConfiguration() {
     QJsonObject config;
     config["version"] = m_version;
 
@@ -44,8 +49,6 @@ bool ConfigManager::saveConfiguration() {
     QJsonObject globalSettings;
     globalSettings["checkInterval"] = m_checkInterval;
     globalSettings["autoStart"] = m_autoStart;
-    globalSettings["windowWidth"] = m_windowWidth;
-    globalSettings["windowHeight"] = m_windowHeight;
     config["globalSettings"] = globalSettings;
 
     // 页面列表
@@ -69,60 +72,44 @@ bool ConfigManager::saveConfiguration() {
     return true;
 }
 
-QString ConfigManager::getConfigFilePath() const {
+QString IMCoreConfigManager::getConfigFilePath() const {
     return m_configFilePath;
 }
 
-int ConfigManager::getCheckInterval() const {
+int IMCoreConfigManager::getCheckInterval() const {
     return m_checkInterval;
 }
 
-void ConfigManager::setCheckInterval(int interval) {
+void IMCoreConfigManager::setCheckInterval(int interval) {
     m_checkInterval = interval;
 }
 
-bool ConfigManager::isAutoStart() const {
+bool IMCoreConfigManager::isAutoStart() const {
     return m_autoStart;
 }
 
-void ConfigManager::setAutoStart(bool autoStart) {
+void IMCoreConfigManager::setAutoStart(bool autoStart) {
     m_autoStart = autoStart;
 }
 
-int ConfigManager::getWindowWidth() const {
-    return m_windowWidth;
-}
-
-void ConfigManager::setWindowWidth(int width) {
-    m_windowWidth = width;
-}
-
-int ConfigManager::getWindowHeight() const {
-    return m_windowHeight;
-}
-
-void ConfigManager::setWindowHeight(int height) {
-    m_windowHeight = height;
-}
-
 // 页面管理
-QList<MonitorPage>& ConfigManager::getPages() {
+QList<MonitorPage>& IMCoreConfigManager::getPages() {
     return m_pages;
 }
 
-const QList<MonitorPage>& ConfigManager::getPages() const {
+const QList<MonitorPage>& IMCoreConfigManager::getPages() const {
     return m_pages;
 }
 
-int ConfigManager::getPageCount() const {
+int IMCoreConfigManager::getPageCount() const {
     return m_pages.size();
 }
 
-void ConfigManager::addPage(const MonitorPage& page) {
+void IMCoreConfigManager::addPage(const MonitorPage& page) {
     m_pages.append(page);
 }
 
-void ConfigManager::removePage(const QString& pageId) {
+void IMCoreConfigManager::removePage(const QString& pageId) {
     for (int i = 0; i < m_pages.size(); ++i) {
         if (m_pages[i].getId() == pageId) {
             m_pages.removeAt(i);
@@ -131,13 +118,13 @@ void ConfigManager::removePage(const QString& pageId) {
     }
 }
 
-void ConfigManager::removePage(int index) {
+void IMCoreConfigManager::removePage(int index) {
     if (index >= 0 && index < m_pages.size()) {
         m_pages.removeAt(index);
     }
 }
 
-MonitorPage* ConfigManager::findPage(const QString& pageId) {
+MonitorPage* IMCoreConfigManager::findPage(const QString& pageId) {
     for (int i = 0; i < m_pages.size(); ++i) {
         if (m_pages[i].getId() == pageId) {
             return &m_pages[i];
@@ -146,7 +133,7 @@ MonitorPage* ConfigManager::findPage(const QString& pageId) {
     return nullptr;
 }
 
-int ConfigManager::findPageIndex(const QString& pageId) const {
+int IMCoreConfigManager::findPageIndex(const QString& pageId) const {
     for (int i = 0; i < m_pages.size(); ++i) {
         if (m_pages[i].getId() == pageId) {
             return i;
@@ -155,11 +142,11 @@ int ConfigManager::findPageIndex(const QString& pageId) const {
     return -1;
 }
 
-void ConfigManager::clearPages() {
+void IMCoreConfigManager::clearPages() {
     m_pages.clear();
 }
 
-bool ConfigManager::validateConfiguration() const {
+bool IMCoreConfigManager::validateConfiguration() const {
     // 检查基本设置
     if (m_checkInterval < 1000) { // 最小1秒
         return false;
@@ -186,7 +173,7 @@ bool ConfigManager::validateConfiguration() const {
     return true;
 }
 
-void ConfigManager::createDefaultConfiguration() {
+void IMCoreConfigManager::createDefaultConfiguration() {
     m_pages.clear();
 
     // 创建默认页面
@@ -204,7 +191,7 @@ void ConfigManager::createDefaultConfiguration() {
     m_pages.append(defaultPage);
 }
 
-QJsonObject ConfigManager::createDefaultConfig() const {
+QJsonObject IMCoreConfigManager::createDefaultConfig() const {
     QJsonObject config;
     config["version"] = m_version;
 
@@ -220,7 +207,7 @@ QJsonObject ConfigManager::createDefaultConfig() const {
     return config;
 }
 
-bool ConfigManager::parseConfiguration(const QJsonObject& config) {
+bool IMCoreConfigManager::parseConfiguration(const QJsonObject& config) {
     // 解析版本
     m_version = config["version"].toString("1.0");
 
@@ -246,4 +233,14 @@ bool ConfigManager::parseConfiguration(const QJsonObject& config) {
     }
 
     return validateConfiguration();
+}
+
+*/
+
+IMCoreConfigManager::IMCoreConfigManager() {
+
+}
+
+IMCoreConfigManager::~IMCoreConfigManager() {
+
 }

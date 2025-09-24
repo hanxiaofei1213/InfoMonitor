@@ -1,33 +1,13 @@
 ﻿#include "InfoMonitor.h"
-#include "MonitorItem.h"
-#include "MonitorPage.h"
-#include "MonitorManager.h"
-#include "ConfigManager.h"
+#include "UIConfigManager.h"
 #include "WindowManager.h"
+#include "IMTray.h"
+#include <QCloseEvent>
 #include <QApplication>
-#include <QInputDialog>
-#include <QTableWidgetItem>
-#include <QHeaderView>
-#include <QComboBox>
-#include <QCheckBox>
-#include <QMenu>
-#include <QAbstractItemView>
-#include <QString>
-#include <QPixmap>
-#include <QPainter>
 #include <QIcon>
-#include <QTableWidget>
-#include <winnt.h>
-#include "MonitorPageWidget.h"
 
 // todo(wangwenxi): 时间到了能刷新一下UI
-
-
-InfoMonitor& InfoMonitor::getInstance() {
-    static InfoMonitor instance;
-    return instance;
-}
-
+/*
 InfoMonitor::InfoMonitor()
     : QMainWindow(nullptr) {
     // 先创建监控管理器
@@ -107,82 +87,6 @@ void InfoMonitor::setupUI() {
     mainLayout->addWidget(m_tabWidget);
 }
 
-
-void InfoMonitor::setupMenuBar() {
-    QMenuBar* menuBar = this->menuBar();
-
-    // 文件菜单
-    QMenu* fileMenu = menuBar->addMenu(QString::fromStdWString(L"文件(&F)"));
-    fileMenu->addAction(QString::fromStdWString(L"新建页面(&N)"), this, &InfoMonitor::onAddPage, QKeySequence::New);
-    fileMenu->addSeparator();
-    fileMenu->addAction(QString::fromStdWString(L"退出(&X)"), this, &QWidget::close, QKeySequence::Quit);
-
-    // 编辑菜单
-    QMenu* editMenu = menuBar->addMenu(QString::fromStdWString(L"编辑(&E)"));
-    editMenu->addAction(QString::fromStdWString(L"添加监控项(&A)"), this, &InfoMonitor::onAddItem, QKeySequence("Ctrl+A"));
-    editMenu->addAction(QString::fromStdWString(L"删除监控项(&D)"), this, &InfoMonitor::onDeleteItem, QKeySequence::Delete);
-    editMenu->addSeparator();
-    editMenu->addAction(QString::fromStdWString(L"刷新当前页(&R)"), this, &InfoMonitor::onRefreshPage, QKeySequence::Refresh);
-
-    // 视图菜单
-    QMenu* viewMenu = menuBar->addMenu(QString::fromStdWString(L"视图(&V)"));
-    viewMenu->addAction(QString::fromStdWString(L"工具栏"), m_toolBar, &QToolBar::setVisible)->setCheckable(true);
-    viewMenu->addAction(QString::fromStdWString(L"状态栏"), m_statusBar, &QStatusBar::setVisible)->setCheckable(true);
-
-    // 帮助菜单
-    QMenu* helpMenu = menuBar->addMenu(QString::fromStdWString(L"帮助(&H)"));
-    helpMenu->addAction(QString::fromStdWString(L"关于(&A)"), this, [this]() {
-        QMessageBox::about(this, QString::fromStdWString(L"关于 InfoMonitor"),
-            QString::fromStdWString(L"InfoMonitor v1.0\n\n"
-                L"系统监控工具，用于监控注册表键值和文件状态。\n\n"
-                L"功能特性：\n"
-                L"• 注册表键值监控\n"
-                L"• 文件存在性监控\n"
-                L"• 分页管理\n"
-                L"• 定时自动检查\n"
-                L"• 配置持久化保存"));
-        });
-}
-
-void InfoMonitor::setupToolBar() {
-    m_toolBar = addToolBar(QString::fromStdWString(L"主工具栏"));
-    m_toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-
-    // 添加页面
-    m_toolBar->addAction(QString::fromStdWString(L"添加页面"), this, &InfoMonitor::onAddPage);
-
-    m_toolBar->addSeparator();
-
-    // 添加监控项
-    m_toolBar->addAction(QString::fromStdWString(L"添加项目"), this, &InfoMonitor::onAddItem);
-
-    // 刷新页面
-    m_toolBar->addAction(QString::fromStdWString(L"刷新页面"), this, &InfoMonitor::onRefreshPage);
-
-    m_toolBar->addSeparator();
-
-    // 开始/停止监控
-    m_startStopButton = new QPushButton(QString::fromStdWString(L"开始监控"), this);
-    connect(m_startStopButton, &QPushButton::clicked, this, &InfoMonitor::onStartStopMonitoring);
-    m_toolBar->addWidget(m_startStopButton);
-}
-
-void InfoMonitor::setupStatusBar() {
-    m_statusBar = statusBar();
-
-    m_statusLabel = new QLabel(QString::fromStdWString(L"就绪"), this);
-    m_statusBar->addWidget(m_statusLabel);
-
-    m_statusBar->addPermanentWidget(new QLabel("|"));
-
-    m_nextCheckLabel = new QLabel(QString::fromStdWString(L"下次检查：--"), this);
-    m_statusBar->addPermanentWidget(m_nextCheckLabel);
-
-    m_statusBar->addPermanentWidget(new QLabel("|"));
-
-    m_itemCountLabel = new QLabel(QString::fromStdWString(L"项目数：0"), this);
-    m_statusBar->addPermanentWidget(m_itemCountLabel);
-}
 
 void InfoMonitor::setupTrayIcon() {
     // 检查系统是否支持托盘
@@ -698,41 +602,6 @@ void InfoMonitor::createPageUI(int nPageIndex, const MonitorPage& page) {
     m_tabWidget->addTab(pPageWidget, page.getName());
 }
 
-void InfoMonitor::closeEvent(QCloseEvent* event) {
-    // 保存当前窗口大小
-    if (m_windowManager) {
-        m_windowManager->saveCurrentSize();
-    }
-    
-    // 在程序退出时保存所有表格的列宽
-    saveColumnWidthsOnExit();
-
-    // 保存配置
-    saveConfiguration();
-
-#ifndef _DEBUG
-    // 如果托盘图标可用，最小化到托盘而不是退出
-    if (m_trayIcon && m_trayIcon->isVisible()) {
-        hide();
-        event->ignore();
-    } else {
-        // 如果托盘不可用，正常退出
-        event->accept();
-    }
-#else
-    event->accept();
-#endif
-}
-
-void InfoMonitor::resizeEvent(QResizeEvent* event) {
-    QMainWindow::resizeEvent(event);
-    
-    // 通知窗口管理器处理大小变化
-    if (m_windowManager) {
-        m_windowManager->handleResize();
-    }
-}
-
 void InfoMonitor::saveColumnWidthsOnExit()
 {
     // 遍历所有页面的表格，保存列宽配置
@@ -751,4 +620,192 @@ void InfoMonitor::saveColumnWidthsOnExit()
         }
     }
 }
+*/
 
+InfoMonitor::InfoMonitor() : QMainWindow(nullptr) {
+    m_pConfig = new UIConfigManager(this);
+    m_windowManager = new WindowManager(this, m_pConfig, this);
+    m_trayIcon = new IMTray(this);
+    
+
+
+    InitUI();
+    InitConnect();
+}
+
+InfoMonitor::~InfoMonitor() {
+}
+
+void InfoMonitor::InitUI() {
+    ui.setupUi(this);
+    setWindowTitle(QString::fromStdWString(L"InfoMonitor - 系统监控工具"));
+    setWindowIcon(QIcon(":/InfoMonitor/res/main.png"));
+    setMinimumSize(1000, 600);
+
+    // 设置窗口大小
+    m_windowManager->setupWindowSize();
+
+    ui.tabWidget->setTabsClosable(true);
+    ui.tabWidget->setMovable(true);
+
+    InitMenuBar();
+    InitToolBar();
+    InitStatusBar();
+    InitTray();
+}
+
+void InfoMonitor::InitMenuBar() {
+    //QMenuBar* pMenuBar = this->menuBar();
+
+    //// 文件菜单
+    //QMenu* fileMenu = pMenuBar->addMenu(QString::fromStdWString(L"文件(&F)"));
+    //fileMenu->addAction(QString::fromStdWString(L"新建页面(&N)"), this, &InfoMonitor::onAddPage, QKeySequence::New);
+    //fileMenu->addSeparator();
+    //fileMenu->addAction(QString::fromStdWString(L"退出(&X)"), this, &QWidget::close, QKeySequence::Quit);
+
+    //// 编辑菜单
+    //QMenu* editMenu = pMenuBar->addMenu(QString::fromStdWString(L"编辑(&E)"));
+    //editMenu->addAction(QString::fromStdWString(L"添加监控项(&A)"), this, &InfoMonitor::onAddItem, QKeySequence("Ctrl+A"));
+    //editMenu->addAction(QString::fromStdWString(L"删除监控项(&D)"), this, &InfoMonitor::onDeleteItem, QKeySequence::Delete);
+    //editMenu->addSeparator();
+    //editMenu->addAction(QString::fromStdWString(L"刷新当前页(&R)"), this, &InfoMonitor::onRefreshPage, QKeySequence::Refresh);
+
+    //// 视图菜单
+    //QMenu* viewMenu = pMenuBar->addMenu(QString::fromStdWString(L"视图(&V)"));
+    //viewMenu->addAction(QString::fromStdWString(L"工具栏"), m_toolBar, &QToolBar::setVisible)->setCheckable(true);
+    //viewMenu->addAction(QString::fromStdWString(L"状态栏"), m_statusBar, &QStatusBar::setVisible)->setCheckable(true);
+
+    //// 帮助菜单
+    //QMenu* helpMenu = pMenuBar->addMenu(QString::fromStdWString(L"帮助(&H)"));
+    //helpMenu->addAction(QString::fromStdWString(L"关于(&A)"), this, [this]() {
+    //    QMessageBox::about(this, QString::fromStdWString(L"关于 InfoMonitor"),
+    //        QString::fromStdWString(L"InfoMonitor v1.0\n\n"
+    //            L"系统监控工具，用于监控注册表键值和文件状态。\n\n"
+    //            L"功能特性：\n"
+    //            L"• 注册表键值监控\n"
+    //            L"• 文件存在性监控\n"
+    //            L"• 分页管理\n"
+    //            L"• 定时自动检查\n"
+    //            L"• 配置持久化保存"));
+    //    });
+}
+
+void InfoMonitor::InitToolBar() {
+    //m_toolBar = addToolBar(QString::fromStdWString(L"主工具栏"));
+    //m_toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+
+    //// 添加页面
+    //m_toolBar->addAction(QString::fromStdWString(L"添加页面"), this, &InfoMonitor::onAddPage);
+
+    //m_toolBar->addSeparator();
+
+    //// 添加监控项
+    //m_toolBar->addAction(QString::fromStdWString(L"添加项目"), this, &InfoMonitor::onAddItem);
+
+    //// 刷新页面
+    //m_toolBar->addAction(QString::fromStdWString(L"刷新页面"), this, &InfoMonitor::onRefreshPage);
+
+    //m_toolBar->addSeparator();
+
+    //// 开始/停止监控
+    //m_startStopButton = new QPushButton(QString::fromStdWString(L"开始监控"), this);
+    //connect(m_startStopButton, &QPushButton::clicked, this, &InfoMonitor::onStartStopMonitoring);
+    //m_toolBar->addWidget(m_startStopButton);
+}
+
+void InfoMonitor::InitStatusBar() {
+    //m_statusBar = statusBar();
+
+    //m_statusLabel = new QLabel(QString::fromStdWString(L"就绪"), this);
+    //m_statusBar->addWidget(m_statusLabel);
+
+    //m_statusBar->addPermanentWidget(new QLabel("|"));
+
+    //m_nextCheckLabel = new QLabel(QString::fromStdWString(L"下次检查：--"), this);
+    //m_statusBar->addPermanentWidget(m_nextCheckLabel);
+
+    //m_statusBar->addPermanentWidget(new QLabel("|"));
+
+    //m_itemCountLabel = new QLabel(QString::fromStdWString(L"项目数：0"), this);
+    //m_statusBar->addPermanentWidget(m_itemCountLabel);
+}
+
+void InfoMonitor::InitTray() {
+    // 设置托盘图标和提示
+    QIcon trayIcon(":/InfoMonitor/res/main.png");
+    m_trayIcon->setIcon(trayIcon);
+    m_trayIcon->setToolTip(QString::fromStdWString(L"InfoMonitor - 系统监控工具"));
+
+    if (m_trayIcon->isSystemTrayAvailable()) {
+        m_trayIcon->show();
+    }
+}
+
+void InfoMonitor::InitConnect() {
+    connect(ui.tabWidget, &QTabWidget::currentChanged, this, &InfoMonitor::onTabChanged);
+    connect(ui.tabWidget, &QTabWidget::tabCloseRequested, this, &InfoMonitor::onTabCloseRequest);
+    
+    connect(m_trayIcon, &IMTray::showWindowRequested, this, &InfoMonitor::onShowWindow);
+    connect(m_trayIcon, &IMTray::exitApplicationRequested, this, &InfoMonitor::onExitApplication);
+}
+
+void InfoMonitor::closeEvent(QCloseEvent* event) {
+    // 保存当前窗口大小
+    if (m_windowManager) {
+        m_windowManager->saveCurrentSize();
+    }
+
+    // 在程序退出时保存所有表格的列宽
+    //saveColumnWidthsOnExit();
+
+#ifndef _DEBUG
+    // 如果系统支持托盘，隐藏窗口而不是退出程序
+    if (m_trayIcon && m_trayIcon->isSystemTrayAvailable()) {
+        hide();
+        m_trayIcon->showMessage(QString::fromStdWString(L"InfoMonitor"),
+                              QString::fromStdWString(L"程序已最小化到托盘"),
+                              QSystemTrayIcon::Information,
+                              2000);
+        event->ignore();
+    } else {
+        // 如果托盘不可用，正常退出
+        event->accept();
+    }
+#else
+    event->accept();
+#endif
+}
+
+void InfoMonitor::resizeEvent(QResizeEvent* event) {
+    QMainWindow::resizeEvent(event);
+
+    // 通知窗口管理器处理大小变化
+    if (m_windowManager) {
+        m_windowManager->handleResize();
+    }
+}
+
+void InfoMonitor::onTabChanged(int nIndex) {
+    //updateCurrentPageUI();
+    //updateStatusBar();
+}
+
+void InfoMonitor::onTabCloseRequest(int nIndex) {
+    if (ui.tabWidget->count() > 1) { // 至少保留一个标签页
+        ui.tabWidget->removeTab(nIndex);
+    }
+}
+
+void InfoMonitor::onShowWindow()
+{
+    // 显示窗口并激活
+    show();
+    raise();
+    activateWindow();
+}
+
+void InfoMonitor::onExitApplication()
+{
+    // 关闭应用程序
+    QApplication::exit(0);
+}

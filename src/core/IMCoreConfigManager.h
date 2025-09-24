@@ -5,11 +5,20 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include "MonitorPage.h"
 
-class ConfigManager {
+// ques(wangwenxi)：要不要改个名字呢？
+
+class IMCoreConfigManager {
 public:
-    ConfigManager();
+    IMCoreConfigManager();
+    ~IMCoreConfigManager();
+};
+
+/*
+class IMCoreConfigManager {
+public:
+    IMCoreConfigManager();
+    ~IMCoreConfigManager();
 
     // 配置文件管理
     bool loadConfiguration();
@@ -22,13 +31,6 @@ public:
 
     bool isAutoStart() const;
     void setAutoStart(bool autoStart);
-
-    // 窗口大小设置
-    int getWindowWidth() const;
-    void setWindowWidth(int width);
-
-    int getWindowHeight() const;
-    void setWindowHeight(int height);
 
     // 页面管理
     QList<MonitorPage>& getPages();
@@ -55,7 +57,7 @@ private:
     QString m_version = "1.0";
     int m_checkInterval = 60000;
     bool m_autoStart = true;
-    int m_windowWidth = 0;
-    int m_windowHeight = 0;
     QList<MonitorPage> m_pages;
 };
+
+*/

@@ -7,13 +7,13 @@
 #include <QGuiApplication>
 #include <QResizeEvent>
 
-class ConfigManager;
+class UIConfigManager;
 
 class WindowManager : public QObject {
     Q_OBJECT
 
 public:
-    explicit WindowManager(QMainWindow* window, ConfigManager* configManager, QObject* parent = nullptr);
+    explicit WindowManager(QMainWindow* window, UIConfigManager* pConfigManager, QObject* parent = nullptr);
     ~WindowManager();
 
     // 初始化窗口大小
@@ -33,7 +33,7 @@ protected:
     void centerWindow(int width, int height);
 
 private:
-    QMainWindow* m_window = nullptr;
-    ConfigManager* m_configManager = nullptr;
-    QTimer* m_saveTimer = nullptr;
+    QMainWindow* m_pWindow = nullptr;
+    UIConfigManager* m_pConfigMgr = nullptr;
+    QTimer* m_pSaveTimer = nullptr;
 };

@@ -41,7 +41,7 @@
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="QtSettings">
-    <QtInstall>x86-msvc2019-5.15.0</QtInstall>
+    <QtInstall>5.15.0_msvc2019</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -63,6 +63,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <LanguageStandard>Default</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="Configuration">
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -92,24 +97,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MonitorPageWidget.cpp" />
-    <ClCompile Include="WindowManager.cpp" />
-    <QtMoc Include="MonitorPageWidget.h" />
-    <QtMoc Include="WindowManager.h" />
     <QtRcc Include="InfoMonitor.qrc" />
-    <QtUic Include="InfoMonitor.ui" />
-    <QtMoc Include="InfoMonitor.h" />
-    <QtMoc Include="MonitorManager.h" />
-    <ClCompile Include="InfoMonitor.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MonitorItem.cpp" />
-    <ClCompile Include="MonitorPage.cpp" />
-    <ClCompile Include="ConfigManager.cpp" />
-    <ClCompile Include="MonitorManager.cpp" />
-    <ClInclude Include="MonitorItem.h" />
-    <ClInclude Include="MonitorPage.h" />
-    <ClInclude Include="ConfigManager.h" />
-    <QtUic Include="MonitorPageWidget.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\core\IMCoreConfigManager.cpp" />
+    <ClCompile Include="src\core\IMCoreWrapper.cpp" />
+    <ClCompile Include="src\main\main.cpp" />
+    <ClCompile Include="src\ui\IMTray.cpp" />
+    <ClCompile Include="src\ui\InfoMonitor.cpp" />
+    <ClCompile Include="src\ui\UIConfigManager.cpp" />
+    <ClCompile Include="src\ui\WindowManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\core\IIMCore.h" />
+    <ClInclude Include="src\core\IMCoreConfigManager.h" />
+    <ClInclude Include="src\core\IMCoreDefine.h" />
+    <ClInclude Include="src\core\IMCoreWrapper.h" />
+    <QtMoc Include="src\ui\IMTray.h" />
+    <QtMoc Include="src\ui\UIConfigManager.h" />
+    <QtMoc Include="src\ui\WindowManager.h" />
+    <QtMoc Include="src\ui\InfoMonitor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="src\ui\InfoMonitor.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
