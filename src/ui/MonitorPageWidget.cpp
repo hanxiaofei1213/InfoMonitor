@@ -1,13 +1,28 @@
-﻿#include "MonitorPageWidget.h"
-#include "InfoMonitor.h"
-#include "MonitorPage.h"
-#include "ConfigManager.h"
+#include "MonitorPageWidget.h"
 #include <QCheckBox>
 #include <QComboBox>
 #include <QPushButton>
 #include <QTableWidgetItem>
 #include <QHeaderView>
 
+
+MonitorPageWidget::MonitorPageWidget(QWidget* pParent) : QWidget(pParent) {
+    ui.setupUi(this);
+
+    InitUI();
+}
+
+MonitorPageWidget::~MonitorPageWidget() {
+    // 清理资源
+}
+
+void MonitorPageWidget::InitUI() {
+
+}
+
+
+
+/*
 MonitorPageWidget::MonitorPageWidget(int pageIndex, const QString& pageName, bool enabled, const QList<MonitorItem>& items, InfoMonitor* parent) 
     : QWidget(parent), m_pageIndex(pageIndex), m_pParent(parent) {
     ui.setupUi(this);
@@ -187,3 +202,5 @@ void MonitorPageWidget::onTableWidget_cellDoubleClicked(int row, int column) {
     //    m_pParent->onItemDoubleClicked(row, column);
     //}
 }
+
+*/

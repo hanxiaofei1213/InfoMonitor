@@ -1,6 +1,6 @@
 // 基本功能测试
 #include "MonitorItem.h"
-#include "MonitorPage.h"
+#include "data/MonitorPage.h"
 #include "ConfigManager.h"
 #include <QCoreApplication>
 #include <QDebug>

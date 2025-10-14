@@ -102,9 +102,12 @@
   <ItemGroup>
     <ClCompile Include="src\core\IMCoreConfigManager.cpp" />
     <ClCompile Include="src\core\IMCoreWrapper.cpp" />
+    <ClCompile Include="src\data\MonitorItemInfo.cpp" />
     <ClCompile Include="src\main\main.cpp" />
+    <ClCompile Include="src\strategy\InfoMonitorStrategy.cpp" />
     <ClCompile Include="src\ui\IMTray.cpp" />
     <ClCompile Include="src\ui\InfoMonitor.cpp" />
+    <ClCompile Include="src\ui\MonitorPageWidget.cpp" />
     <ClCompile Include="src\ui\UIConfigManager.cpp" />
     <ClCompile Include="src\ui\WindowManager.cpp" />
   </ItemGroup>
@@ -113,6 +116,10 @@
     <ClInclude Include="src\core\IMCoreConfigManager.h" />
     <ClInclude Include="src\core\IMCoreDefine.h" />
     <ClInclude Include="src\core\IMCoreWrapper.h" />
+    <ClInclude Include="src\data\MonitorItemInfo.h" />
+    <ClInclude Include="src\data\MonitorPageInfo.h" />
+    <QtMoc Include="src\strategy\InfoMonitorStrategy.h" />
+    <QtMoc Include="src\ui\MonitorPageWidget.h" />
     <QtMoc Include="src\ui\IMTray.h" />
     <QtMoc Include="src\ui\UIConfigManager.h" />
     <QtMoc Include="src\ui\WindowManager.h" />
@@ -120,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\ui\InfoMonitor.ui" />
+    <QtUic Include="src\ui\MonitorPageWidget.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

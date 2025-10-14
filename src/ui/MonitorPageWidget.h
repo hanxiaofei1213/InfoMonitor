@@ -3,10 +3,33 @@
 #include <QTableWidget>
 #include <QString>
 #include <QList>
-#include "MonitorItem.h"
+//#include "MonitorItem.h"
 #include "ui_MonitorPageWidget.h"
-#include "InfoMonitor.h"
 
+// todo(wangwenxi)：负责具体展示的内容，具体的内容去业务层查
+
+class MonitorPageWidget : public QWidget {
+    Q_OBJECT
+public:
+    MonitorPageWidget(QWidget* pParent);
+    ~MonitorPageWidget();
+
+
+signals:
+
+protected:
+    void InitUI();
+
+
+
+private:
+    Ui::MonitorPageWidget ui;
+
+
+};
+
+
+/*
 class InfoMonitor;
 class MonitorPage;
 class ConfigManager;
@@ -58,7 +81,7 @@ protected:
     void setupColumnWidths();
 
 private:
-    Ui::MonitorPageWidget ui;
     int m_pageIndex = 0;
     InfoMonitor* m_pParent = nullptr;
 };
+*/

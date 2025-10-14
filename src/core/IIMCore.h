@@ -1,24 +1,25 @@
 #pragma once
 #include <vector>
 #include "IMCoreDefine.h"
+#include "../data/MonitorItemInfo.h"
 
 
-// todo(wangwenxi)£ºÕâÀï×îºÃ±ğÓÃQt£¬ÒòÎªÎÒĞèÒª°ÑËüÀ©Õ¹µ½±ğµÄµØ·½
+// todo(wangwenxi)ï¼šè¿™é‡Œæœ€å¥½åˆ«ç”¨Qtï¼Œå› ä¸ºæˆ‘éœ€è¦æŠŠå®ƒæ‰©å±•åˆ°åˆ«çš„åœ°æ–¹
 
 class IIMCore {
 public:
     virtual ~IIMCore() = default;
 
-    // ÔöÉ¾¸Ä²éÒ³Ãæ
+    // å¢åˆ æ”¹æŸ¥é¡µé¢
     virtual std::vector<MonitorPageInfo> QueryMonitorPages() = 0;
 
     
 
-    // ÔöÉ¾¸Ä²éitem£¬ĞèÒª´«Ò³Ãæid
+    // å¢åˆ æ”¹æŸ¥itemï¼Œéœ€è¦ä¼ é¡µé¢id
     virtual std::vector<MonitorItemInfo> QueryMonitorItems(const QString& strPageId) = 0;
 
 
-    // Í¨ÖªÍâÃæÊı¾İÒÑ¾­±äÁË£¬¿ÉÒÔÓÃ»Øµ÷º¯ÊıÀ´ÊµÏÖ
+    // é€šçŸ¥å¤–é¢æ•°æ®å·²ç»å˜äº†ï¼Œå¯ä»¥ç”¨å›è°ƒå‡½æ•°æ¥å®ç°
 
 };
 

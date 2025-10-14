@@ -23,6 +23,12 @@
     <Filter Include="src\main">
       <UniqueIdentifier>{c4bb0b42-8c9c-440c-a770-af32f008258e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\strategy">
+      <UniqueIdentifier>{53138752-5711-4c76-a0a9-df4df2c49b47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\data">
+      <UniqueIdentifier>{3bae2f49-04da-49fe-aeac-fce03e2b6f9d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="InfoMonitor.qrc">
@@ -51,6 +57,15 @@
     <ClCompile Include="src\ui\UIConfigManager.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
+    <ClCompile Include="src\ui\MonitorPageWidget.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\strategy\InfoMonitorStrategy.cpp">
+      <Filter>src\strategy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\data\MonitorItemInfo.cpp">
+      <Filter>src\data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\IIMCore.h">
@@ -65,9 +80,18 @@
     <ClInclude Include="src\core\IMCoreConfigManager.h">
       <Filter>src\core</Filter>
     </ClInclude>
+    <ClInclude Include="src\data\MonitorPageInfo.h">
+      <Filter>src\data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\data\MonitorItemInfo.h">
+      <Filter>src\data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\ui\InfoMonitor.ui">
+      <Filter>src\ui</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\MonitorPageWidget.ui">
       <Filter>src\ui</Filter>
     </QtUic>
   </ItemGroup>
@@ -83,6 +107,12 @@
     </QtMoc>
     <QtMoc Include="src\ui\IMTray.h">
       <Filter>src\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\MonitorPageWidget.h">
+      <Filter>src\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\strategy\InfoMonitorStrategy.h">
+      <Filter>src\strategy</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

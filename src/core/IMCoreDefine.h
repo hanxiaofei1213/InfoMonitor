@@ -7,8 +7,5 @@ struct MonitorPageInfo {
 
 };
 
-struct MonitorItemInfo {
-
-};
 
 

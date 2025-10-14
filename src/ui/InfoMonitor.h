@@ -3,6 +3,8 @@
 #include "ui_InfoMonitor.h"
 
 
+// todo(wangwenxi)：管理整个程序界面，托盘，样式大小，以及创建具体的页面
+
 class UIConfigManager;
 class WindowManager;
 class IMTray;
@@ -20,6 +22,7 @@ protected:
     void InitToolBar();
     void InitStatusBar();
     void InitTray();
+    void InitPage();
     void InitConnect();
 
     // 重写事件
@@ -29,7 +32,7 @@ protected:
 protected slots:
     void onTabChanged(int nIndex);
     void onTabCloseRequest(int nIndex);
-    
+
     // 处理托盘相关的槽函数
     void onShowWindow();
     void onExitApplication();
@@ -56,7 +59,7 @@ protected slots:
     void onAddItem();
     void onRefreshPage();
     void onStartStopMonitoring();
-    
+
     void onPageNameChanged();
     void onPageEnabledChanged(bool enabled);
     void onItemEnabledChanged(int row, int column);
@@ -93,7 +96,6 @@ protected:
     int getCurrentPageIndex() const;
 
 private:
-    QTabWidget* m_tabWidget = nullptr;
     QToolBar* m_toolBar = nullptr;
     QStatusBar* m_statusBar = nullptr;
     QLabel* m_statusLabel = nullptr;
@@ -103,14 +105,6 @@ private:
 
     // 业务组件
     MonitorManager* m_monitorManager = nullptr;
-    ConfigManager* m_configManager = nullptr;
-    
-
-    // 托盘相关组件
-    QSystemTrayIcon* m_trayIcon = nullptr;
-    QMenu* m_trayMenu = nullptr;
-    QAction* m_showAction = nullptr;
-    QAction* m_exitAction = nullptr;
 
     // 状态
     bool m_isMonitoring = false;
