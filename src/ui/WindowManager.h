@@ -1,5 +1,4 @@
 ﻿#pragma once
-
 #include <QObject>
 #include <QMainWindow>
 #include <QTimer>
@@ -9,6 +8,7 @@
 
 class UIConfigManager;
 
+// 控制窗口类
 class WindowManager : public QObject {
     Q_OBJECT
 

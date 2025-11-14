@@ -36,12 +36,12 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
-    <QtInstall>5.15.0_msvc2019</QtInstall>
+    <QtInstall>x86-msvc2019-5.15.0</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="QtSettings">
-    <QtInstall>5.15.0_msvc2019</QtInstall>
+    <QtInstall>x86-msvc2019-5.15.0</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -65,7 +65,14 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>./;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>./</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="Configuration">
@@ -102,9 +109,9 @@
   <ItemGroup>
     <ClCompile Include="src\core\IMCoreConfigManager.cpp" />
     <ClCompile Include="src\core\IMCoreWrapper.cpp" />
-    <ClCompile Include="src\data\MonitorItemInfo.cpp" />
     <ClCompile Include="src\main\main.cpp" />
     <ClCompile Include="src\strategy\InfoMonitorStrategy.cpp" />
+    <ClCompile Include="src\ui\IMActionBar.cpp" />
     <ClCompile Include="src\ui\IMTray.cpp" />
     <ClCompile Include="src\ui\InfoMonitor.cpp" />
     <ClCompile Include="src\ui\MonitorPageWidget.cpp" />
@@ -118,6 +125,7 @@
     <ClInclude Include="src\core\IMCoreWrapper.h" />
     <ClInclude Include="src\data\MonitorItemInfo.h" />
     <ClInclude Include="src\data\MonitorPageInfo.h" />
+    <QtMoc Include="src\ui\IMActionBar.h" />
     <QtMoc Include="src\strategy\InfoMonitorStrategy.h" />
     <QtMoc Include="src\ui\MonitorPageWidget.h" />
     <QtMoc Include="src\ui\IMTray.h" />

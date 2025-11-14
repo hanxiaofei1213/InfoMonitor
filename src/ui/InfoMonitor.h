@@ -8,6 +8,7 @@
 class UIConfigManager;
 class WindowManager;
 class IMTray;
+class IMActionBar;
 
 class InfoMonitor : public QMainWindow {
     Q_OBJECT
@@ -18,9 +19,6 @@ public:
 
 protected:
     void InitUI();
-    void InitMenuBar();
-    void InitToolBar();
-    void InitStatusBar();
     void InitTray();
     void InitPage();
     void InitConnect();
@@ -42,6 +40,7 @@ private:
     UIConfigManager* m_pConfig = nullptr;
     WindowManager* m_windowManager = nullptr;
     IMTray* m_trayIcon = nullptr;
+    IMActionBar* m_pActionBar = nullptr;
 };
 
 

@@ -64,7 +64,7 @@ public slots:
     void onConfigurationChangeRequest(const QVariantMap& config);
     void onPageAddRequest(const QString& name, const QString& url);
     void onPageRemoveRequest(const QString& pageId);
-    void onPageUpdateRequest(const QString& pageId, const MonitorPageInfo& page);
+    //void onPageUpdateRequest(const QString& pageId, const MonitorPageInfo& page);
     void onSettingsChangeRequest(const QVariantMap& settings);
 
 signals:

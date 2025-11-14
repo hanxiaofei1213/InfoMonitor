@@ -2,7 +2,7 @@
 #include <QSharedMemory>
 #include <QMessageBox>
 #include <QString>
-#include "src\ui\InfoMonitor.h"
+#include "src/ui/InfoMonitor.h"
 
 // todo(wangwenxi): 监控文件夹支持快速打开文件夹，监控文件支持快速运行
 

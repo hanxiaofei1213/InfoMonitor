@@ -5,7 +5,7 @@
 #include <QMap>
 #include <QDateTime>
 #include <Windows.h>
-#include "../MonitorItem.h"
+#include "MonitorItemInfo.h"
 
 /**
  * @brief 监控页面数据结构体

@@ -1,11 +1,9 @@
 #pragma once
-
 #include <QString>
 #include <QDateTime>
 #include <QJsonObject>
 
-struct MonitorItemInfo
-{
+struct MonitorItemInfo {
     enum Type {
         Registry,
         File

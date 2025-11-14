@@ -281,20 +281,20 @@ void InfoMonitorStrategy::removeMonitorPage(const QString& pageId) {
 }
 
 void InfoMonitorStrategy::updateMonitorPage(const QString& pageId, const MonitorPageInfo& page) {
-    for (int i = 0; i < m_monitorPages.size(); ++i) {
-        if (m_monitorPages[i].id == pageId) {
-            m_monitorPages[i] = page;
-            m_monitorPages[i].modifiedTime = QDateTime::currentDateTime();
-            
-            emit pageUpdated(pageId, page);
-            emit pagesListChanged(getMonitorPages());
-            emit statusMessageChanged(QString("Updated monitor page: %1").arg(page.name));
-            
-            qDebug() << "Updated monitor page:" << page.name << "ID:" << pageId;
-            return;
-        }
-    }
-    
+    //for (int i = 0; i < m_monitorPages.size(); ++i) {
+    //    if (m_monitorPages[i].id == pageId) {
+    //        m_monitorPages[i] = page;
+    //        m_monitorPages[i].modifiedTime = QDateTime::currentDateTime();
+    //        
+    //        emit pageUpdated(pageId, page);
+    //        emit pagesListChanged(getMonitorPages());
+    //        emit statusMessageChanged(QString("Updated monitor page: %1").arg(page.name));
+    //        
+    //        qDebug() << "Updated monitor page:" << page.name << "ID:" << pageId;
+    //        return;
+    //    }
+    //}
+    //
     qWarning() << "Page not found for update:" << pageId;
 }
 
@@ -389,9 +389,9 @@ void InfoMonitorStrategy::onPageRemoveRequest(const QString& pageId) {
     removeMonitorPage(pageId);
 }
 
-void InfoMonitorStrategy::onPageUpdateRequest(const QString& pageId, const QVariantMap& config) {
-    updateMonitorPage(pageId, config);
-}
+//void InfoMonitorStrategy::onPageUpdateRequest(const QString& pageId, const QVariantMap& config) {
+//    updateMonitorPage(pageId, config);
+//}
 
 void InfoMonitorStrategy::onSettingsChangeRequest(const QVariantMap& settings) {
     onConfigurationChangeRequest(settings);
@@ -427,11 +427,11 @@ void InfoMonitorStrategy::connectSignals() {
     // 例如配置管理器的信号等
 }
 
-QVariantMap InfoMonitorStrategy::createPageInfo(const MonitorPageInfo& page) const {
-    // TODO: 实现页面信息创建
-    QVariantMap info;
-    return info;
-}
+//QVariantMap InfoMonitorStrategy::createPageInfo(const MonitorPageInfo& page) const {
+//    // TODO: 实现页面信息创建
+//    QVariantMap info;
+//    return info;
+//}
 
 QVariantMap InfoMonitorStrategy::createStatusInfo() const {
     QVariantMap status;
