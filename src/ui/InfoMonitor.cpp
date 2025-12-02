@@ -6,6 +6,7 @@
 #include <QApplication>
 #include <QIcon>
 #include "IMActionBar.h"
+#include "MonitorPageWidget.h"
 
 // todo(wangwenxi): 时间到了能刷新一下UI
 /*
@@ -666,8 +667,10 @@ void InfoMonitor::InitTray() {
 }
 
 void InfoMonitor::InitPage() {
-    // todo(wangwenxi)：要不这里整一个PageManager，
+    // todo(wangwenxi)：要不这里整一个PageManager
 
+    auto pPdfPage = new MonitorPageWidget(this);
+    ui.tabWidget->addTab(pPdfPage, QString::fromStdWString(L"PDF"));
 
 }
 

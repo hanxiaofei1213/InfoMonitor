@@ -6,6 +6,8 @@
 
 // todo(wangwenxi)：这里最好别用Qt，因为我需要把它扩展到别的地方
 
+// todo(wangwenxi): 读写配置也放在这里
+
 class IIMCore {
 public:
     virtual ~IIMCore() = default;
