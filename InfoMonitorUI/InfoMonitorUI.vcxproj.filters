@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{91d5bfa0-b6a4-4528-91ab-5e9abf6182fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\main">
+      <UniqueIdentifier>{083a7971-9107-4ce3-b336-927e678d931e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\data">
+      <UniqueIdentifier>{fc6afdb4-a6c3-4f14-af99-c024d24e95d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ui">
+      <UniqueIdentifier>{e582b7cd-59f1-42f8-ac9e-8b90fcf2cef0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\strategy">
+      <UniqueIdentifier>{1925d947-4d61-4ed1-a942-50aca2c21d2a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="InfoMonitorUI.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\data\MonitorItemInfo.h">
+      <Filter>src\data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\data\MonitorPageInfo.h">
+      <Filter>src\data</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main\main.cpp">
+      <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\strategy\InfoMonitorStrategy.cpp">
+      <Filter>src\strategy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\IMActionBar.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\IMTray.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\InfoMonitor.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\MonitorPageWidget.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\UIConfigManager.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\WindowManager.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\strategy\InfoMonitorStrategy.h">
+      <Filter>src\strategy</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\IMActionBar.h">
+      <Filter>src\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\IMTray.h">
+      <Filter>src\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\InfoMonitor.h">
+      <Filter>src\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\MonitorPageWidget.h">
+      <Filter>src\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\UIConfigManager.h">
+      <Filter>src\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\WindowManager.h">
+      <Filter>src\ui</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="src\ui\InfoMonitor.ui">
+      <Filter>src\ui</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\MonitorPageWidget.ui">
+      <Filter>src\ui</Filter>
+    </QtUic>
+  </ItemGroup>
+</Project>
