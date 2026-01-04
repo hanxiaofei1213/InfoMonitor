@@ -60,7 +60,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="../../InfoMonitor.qrc"/>
+  <include location="../../InfoMonitorUI.qrc"/>
  </resources>
  <connections/>
 </ui>

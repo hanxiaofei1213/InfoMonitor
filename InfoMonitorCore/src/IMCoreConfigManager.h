@@ -1,12 +1,6 @@
 ﻿#pragma once
 
-#include <QString>
-#include <QList>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
 
-// ques(wangwenxi)：要不要改个名字呢？
 
 class IMCoreConfigManager {
 public:

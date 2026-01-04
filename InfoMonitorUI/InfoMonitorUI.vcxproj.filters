@@ -20,6 +20,9 @@
     <Filter Include="src\strategy">
       <UniqueIdentifier>{1925d947-4d61-4ed1-a942-50aca2c21d2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utils">
+      <UniqueIdentifier>{7ec08aef-2694-467f-a590-a170c9567afa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="InfoMonitorUI.qrc">
@@ -33,12 +36,15 @@
     <ClInclude Include="src\data\MonitorPageInfo.h">
       <Filter>src\data</Filter>
     </ClInclude>
+    <ClInclude Include="src\utils\InfoMonitorUtils.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main\main.cpp">
       <Filter>src\main</Filter>
     </ClCompile>
-    <ClCompile Include="src\strategy\InfoMonitorStrategy.cpp">
+    <ClCompile Include="src\strategy\InfoMonitorCoreWrapper.cpp">
       <Filter>src\strategy</Filter>
     </ClCompile>
     <ClCompile Include="src\ui\IMActionBar.cpp">
@@ -59,11 +65,14 @@
     <ClCompile Include="src\ui\WindowManager.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
+    <ClCompile Include="src\utils\InfoMonitorUtils.cpp">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\strategy\MonitorPageManager.cpp">
+      <Filter>src\strategy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\strategy\InfoMonitorStrategy.h">
-      <Filter>src\strategy</Filter>
-    </QtMoc>
     <QtMoc Include="src\ui\IMActionBar.h">
       <Filter>src\ui</Filter>
     </QtMoc>
@@ -81,6 +90,12 @@
     </QtMoc>
     <QtMoc Include="src\ui\WindowManager.h">
       <Filter>src\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\strategy\MonitorPageManager.h">
+      <Filter>src\strategy</Filter>
+    </QtMoc>
+    <QtMoc Include="src\strategy\InfoMonitorCoreWrapper.h">
+      <Filter>src\strategy</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

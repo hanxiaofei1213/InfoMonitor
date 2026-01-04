@@ -5,6 +5,11 @@
 #include <atlstr.h>
 #include "../include/InfoMonitorCore.h"
 
+class InfoMonitorPrivate {
+
+};
+
+/*
 class InfoMonitorPrivate
 {
 public:
@@ -55,3 +60,5 @@ private:
     std::map<CString, CString> m_mapRegistrySnapshots;      // 注册表快照（路径->值）
     std::map<CString, FILETIME> m_mapFileSnapshots;         // 文件快照（路径->修改时间）
 };
+
+*/

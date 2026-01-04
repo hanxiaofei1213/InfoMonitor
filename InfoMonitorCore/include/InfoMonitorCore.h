@@ -44,18 +44,32 @@ struct ChangeRecord
     SYSTEMTIME timeChanged = {};
 };
 
-// 前置声明内部实现类（仅指针类型暴露给外部，不暴露实现细节）
 class InfoMonitorPrivate;
+
+class InfoMonitorCore {
+public:
+    InfoMonitorCore();
+    ~InfoMonitorCore();
+
+    int Init();
+    int UnInit();
+
+
+
+
+};
+
+/*
 
 /// <summary>
 /// InfoMonitorCore 核心类（pImpl 模式）
 /// 用于批量管理注册表、文件的监控与操作
 /// </summary>
-class CInfoMonitorCore
+class InfoMonitorCore
 {
 public:
-    CInfoMonitorCore();
-    ~CInfoMonitorCore();
+    InfoMonitorCore();
+    ~InfoMonitorCore();
 
     // ========== 初始化与配置 ==========
 
@@ -267,3 +281,6 @@ public:
 protected:
     InfoMonitorPrivate* m_pImpl = nullptr;
 };
+
+
+*/

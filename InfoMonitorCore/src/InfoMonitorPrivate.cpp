@@ -1,6 +1,10 @@
 #include "InfoMonitorPrivate.h"
 #include <atlbase.h>
 
+
+
+
+/*
 // ========== 初始化与配置 ==========
 
 int InfoMonitorPrivate::Init()
@@ -463,3 +467,5 @@ int InfoMonitorPrivate::ScanNow()
 
     return 0;
 }
+
+*/

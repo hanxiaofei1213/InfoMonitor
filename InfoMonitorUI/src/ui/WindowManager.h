@@ -8,6 +8,7 @@
 
 class UIConfigManager;
 
+// ques(wangwenxi)：这里是定时器保存，还是有个接口自动保存，因为每一列的详细信息也需要用这个保存
 // 控制窗口类
 class WindowManager : public QObject {
     Q_OBJECT

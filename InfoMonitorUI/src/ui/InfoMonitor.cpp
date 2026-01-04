@@ -7,6 +7,8 @@
 #include <QIcon>
 #include "IMActionBar.h"
 #include "MonitorPageWidget.h"
+#include "src/strategy/MonitorPageManager.h"
+#include "src/strategy/InfoMonitorCoreWrapper.h"
 
 // todo(wangwenxi): 时间到了能刷新一下UI
 /*
@@ -430,10 +432,6 @@ void InfoMonitor::onItemEnabledChanged(int row, int column) {
     saveConfiguration();
 }
 
-void InfoMonitor::onItemDoubleClicked(int row, int column) {
-    // 双击编辑功能已通过表格的默认行为实现
-}
-
 void InfoMonitor::onDeleteItem() {
     QPushButton* deleteBtn = qobject_cast<QPushButton*>(sender());
     if (!deleteBtn) return;
@@ -482,10 +480,6 @@ void InfoMonitor::onShowWindow() {
     show();
     raise();
     activateWindow();
-}
-
-void InfoMonitor::onExitApplication() {
-    QApplication::quit();
 }
 
 // 辅助函数实现
@@ -629,12 +623,19 @@ InfoMonitor::InfoMonitor() : QMainWindow(nullptr) {
     m_windowManager = new WindowManager(this, m_pConfig, this);
     m_trayIcon = new IMTray(this);
     m_pActionBar = new IMActionBar(this, this);
+    m_pInfoMonitorCore = new InfoMonitorCoreWrapper(this);
+    m_pInfoMonitorCore->Init();
+
+    m_pPageManager = new MonitorPageManager(m_pInfoMonitorCore, this);
 
     InitUI();
     InitConnect();
 }
 
 InfoMonitor::~InfoMonitor() {
+    if (m_pInfoMonitorCore) {
+        m_pInfoMonitorCore->UnInit();
+    }
 }
 
 void InfoMonitor::InitUI() {
@@ -667,11 +668,23 @@ void InfoMonitor::InitTray() {
 }
 
 void InfoMonitor::InitPage() {
-    // todo(wangwenxi)：要不这里整一个PageManager
+    if (!m_pPageManager) {
+        return;
+    }
 
-    auto pPdfPage = new MonitorPageWidget(this);
-    ui.tabWidget->addTab(pPdfPage, QString::fromStdWString(L"PDF"));
+    QVector<MonitorPageWidget*> vecPageWidgets = m_pPageManager->CreateMonitorPages();
+    if (vecPageWidgets.isEmpty()) {
+        assert(false && "vecPage shouldn't be empty");
+        return;
+    }
+    
+    for (auto pPageWidget : vecPageWidgets) {
+        if (!pPageWidget) {
+            continue;
+        }
 
+        ui.tabWidget->addTab(pPageWidget,  pPageWidget->GetTitle());
+    }
 }
 
 void InfoMonitor::InitConnect() {

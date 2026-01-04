@@ -3,12 +3,12 @@
 #include "ui_InfoMonitor.h"
 
 
-// todo(wangwenxi)：管理整个程序界面，托盘，样式大小，以及创建具体的页面
-
 class UIConfigManager;
 class WindowManager;
 class IMTray;
 class IMActionBar;
+class MonitorPageManager;
+class InfoMonitorCoreWrapper;
 
 class InfoMonitor : public QMainWindow {
     Q_OBJECT
@@ -41,6 +41,8 @@ private:
     WindowManager* m_windowManager = nullptr;
     IMTray* m_trayIcon = nullptr;
     IMActionBar* m_pActionBar = nullptr;
+    MonitorPageManager* m_pPageManager = nullptr;
+    InfoMonitorCoreWrapper* m_pInfoMonitorCore = nullptr;
 };
 
 

@@ -24,23 +24,27 @@
   <ItemGroup>
     <ClInclude Include="src\data\MonitorItemInfo.h" />
     <ClInclude Include="src\data\MonitorPageInfo.h" />
+    <QtMoc Include="src\strategy\MonitorPageManager.h" />
+    <ClInclude Include="src\utils\InfoMonitorUtils.h" />
     <QtMoc Include="src\ui\WindowManager.h" />
     <QtMoc Include="src\ui\UIConfigManager.h" />
     <QtMoc Include="src\ui\MonitorPageWidget.h" />
     <QtMoc Include="src\ui\InfoMonitor.h" />
     <QtMoc Include="src\ui\IMTray.h" />
     <QtMoc Include="src\ui\IMActionBar.h" />
-    <QtMoc Include="src\strategy\InfoMonitorStrategy.h" />
+    <QtMoc Include="src\strategy\InfoMonitorCoreWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main\main.cpp" />
-    <ClCompile Include="src\strategy\InfoMonitorStrategy.cpp" />
+    <ClCompile Include="src\strategy\InfoMonitorCoreWrapper.cpp" />
+    <ClCompile Include="src\strategy\MonitorPageManager.cpp" />
     <ClCompile Include="src\ui\IMActionBar.cpp" />
     <ClCompile Include="src\ui\IMTray.cpp" />
     <ClCompile Include="src\ui\InfoMonitor.cpp" />
     <ClCompile Include="src\ui\MonitorPageWidget.cpp" />
     <ClCompile Include="src\ui\UIConfigManager.cpp" />
     <ClCompile Include="src\ui\WindowManager.cpp" />
+    <ClCompile Include="src\utils\InfoMonitorUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\ui\InfoMonitor.ui" />
@@ -87,7 +91,7 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
-    <QtInstall>x86-msvc2019-5.15.0</QtInstall>
+    <QtInstall>5.15.0_msvc2019</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
@@ -136,8 +140,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>./;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../;./;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>InfoMonitorCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -147,9 +155,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>./</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../;./;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>InfoMonitorCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

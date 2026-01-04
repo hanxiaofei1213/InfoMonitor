@@ -7,13 +7,17 @@
 #include "ui_MonitorPageWidget.h"
 
 // todo(wangwenxi)：负责具体展示的内容，具体的内容去业务层查
+// todo(wangwenxi)：这里到时候也需要加一个策略类
 
+// todo(wangwenxi)：感觉这里应该需要把主类传进来
 class MonitorPageWidget : public QWidget {
     Q_OBJECT
 public:
-    MonitorPageWidget(QWidget* pParent);
+    MonitorPageWidget(const QString& strTitle, QWidget* pParent);
     ~MonitorPageWidget();
 
+    void SetTitle(const QString& strTitle);
+    QString GetTitle() const;
 
 signals:
 
@@ -24,6 +28,7 @@ protected:
 
 private:
     Ui::MonitorPageWidget ui;
+    QString m_strTitle;
 
 
 };

@@ -1,30 +1,33 @@
 ﻿#pragma once
 
 #include <QObject>
-#include <QString>
-#include <QTimer>
-#include <QList>
-#include <QVariantMap>
+#include <memory>
 
-// 前向声明
-class UIConfigManager;
-//class IMCoreConfigManager;
+class InfoMonitorCore;
 
-// 数据结构
-#include "../data/MonitorPageInfo.h"
+class InfoMonitorCoreWrapper : public QObject {
+    Q_OBJECT
+public:
+    InfoMonitorCoreWrapper(QObject* pParent);
+    ~InfoMonitorCoreWrapper();
 
-/**
- * @brief 信息监控业务策略类
- *
- * 负责管理配置、协调各个组件，并通过信号槽与界面层通信
- * 实现界面与业务逻辑的完全分离
- */
-class InfoMonitorStrategy : public QObject {
+    void Init();
+    void UnInit();
+
+
+
+private:
+    std::shared_ptr<InfoMonitorCore> m_pInfoMonitorCore;
+
+};
+
+/*
+class InfoMonitorCoreWrapper : public QObject {
     Q_OBJECT
 
 public:
-    explicit InfoMonitorStrategy(QObject* parent = nullptr);
-    ~InfoMonitorStrategy();
+    explicit InfoMonitorCoreWrapper(QObject* parent = nullptr);
+    ~InfoMonitorCoreWrapper();
 
     // 初始化和清理
     bool initialize();
@@ -129,3 +132,4 @@ private:
     QVariantMap m_currentStatus;
     QList<MonitorPageInfo> m_monitorPages;
 };
+*/

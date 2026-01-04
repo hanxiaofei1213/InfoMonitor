@@ -2,14 +2,14 @@
 //
 
 #include "include/InfoMonitorCore.h"
-#include "InfoMonitorPrivate.h"
 
-CInfoMonitorCore::CInfoMonitorCore()
+/*
+InfoMonitorCore::InfoMonitorCore()
 {
     m_pImpl = new InfoMonitorPrivate();
 }
 
-CInfoMonitorCore::~CInfoMonitorCore()
+InfoMonitorCore::~InfoMonitorCore()
 {
     if (m_pImpl != nullptr)
     {
@@ -20,7 +20,7 @@ CInfoMonitorCore::~CInfoMonitorCore()
 
 // ========== 初始化与配置 ==========
 
-int CInfoMonitorCore::Init()
+int InfoMonitorCore::Init()
 {
     if (m_pImpl == nullptr)
     {
@@ -29,7 +29,7 @@ int CInfoMonitorCore::Init()
     return m_pImpl->Init();
 }
 
-int CInfoMonitorCore::Uninit()
+int InfoMonitorCore::Uninit()
 {
     if (m_pImpl == nullptr)
     {
@@ -38,7 +38,7 @@ int CInfoMonitorCore::Uninit()
     return m_pImpl->Uninit();
 }
 
-int CInfoMonitorCore::LoadConfig(const CString& strConfigPath)
+int InfoMonitorCore::LoadConfig(const CString& strConfigPath)
 {
     if (m_pImpl == nullptr)
     {
@@ -47,7 +47,7 @@ int CInfoMonitorCore::LoadConfig(const CString& strConfigPath)
     return m_pImpl->LoadConfig(strConfigPath);
 }
 
-int CInfoMonitorCore::SaveConfig(const CString& strConfigPath)
+int InfoMonitorCore::SaveConfig(const CString& strConfigPath)
 {
     if (m_pImpl == nullptr)
     {
@@ -58,7 +58,7 @@ int CInfoMonitorCore::SaveConfig(const CString& strConfigPath)
 
 // ========== 监控项管理 ==========
 
-int CInfoMonitorCore::AddRegistryMonitor(const CString& strRegPath, const CString& strValueName, int nGroupId)
+int InfoMonitorCore::AddRegistryMonitor(const CString& strRegPath, const CString& strValueName, int nGroupId)
 {
     if (m_pImpl == nullptr)
     {
@@ -67,7 +67,7 @@ int CInfoMonitorCore::AddRegistryMonitor(const CString& strRegPath, const CStrin
     return m_pImpl->AddRegistryMonitor(strRegPath, strValueName, nGroupId);
 }
 
-int CInfoMonitorCore::AddFileMonitor(const CString& strFilePath, int nGroupId)
+int InfoMonitorCore::AddFileMonitor(const CString& strFilePath, int nGroupId)
 {
     if (m_pImpl == nullptr)
     {
@@ -76,7 +76,7 @@ int CInfoMonitorCore::AddFileMonitor(const CString& strFilePath, int nGroupId)
     return m_pImpl->AddFileMonitor(strFilePath, nGroupId);
 }
 
-int CInfoMonitorCore::AddDirectoryMonitor(const CString& strDirPath, bool bRecursive, int nGroupId)
+int InfoMonitorCore::AddDirectoryMonitor(const CString& strDirPath, bool bRecursive, int nGroupId)
 {
     if (m_pImpl == nullptr)
     {
@@ -85,7 +85,7 @@ int CInfoMonitorCore::AddDirectoryMonitor(const CString& strDirPath, bool bRecur
     return m_pImpl->AddDirectoryMonitor(strDirPath, bRecursive, nGroupId);
 }
 
-int CInfoMonitorCore::RemoveMonitor(const CString& strPath)
+int InfoMonitorCore::RemoveMonitor(const CString& strPath)
 {
     if (m_pImpl == nullptr)
     {
@@ -94,7 +94,7 @@ int CInfoMonitorCore::RemoveMonitor(const CString& strPath)
     return m_pImpl->RemoveMonitor(strPath);
 }
 
-int CInfoMonitorCore::ClearAllMonitors()
+int InfoMonitorCore::ClearAllMonitors()
 {
     if (m_pImpl == nullptr)
     {
@@ -103,7 +103,7 @@ int CInfoMonitorCore::ClearAllMonitors()
     return m_pImpl->ClearAllMonitors();
 }
 
-int CInfoMonitorCore::EnableMonitor(const CString& strPath, bool bEnable)
+int InfoMonitorCore::EnableMonitor(const CString& strPath, bool bEnable)
 {
     if (m_pImpl == nullptr)
     {
@@ -114,7 +114,7 @@ int CInfoMonitorCore::EnableMonitor(const CString& strPath, bool bEnable)
 
 // ========== 注册表操作 ==========
 
-int CInfoMonitorCore::ReadRegistry(const CString& strRegPath, const CString& strValueName, CString& strValue)
+int InfoMonitorCore::ReadRegistry(const CString& strRegPath, const CString& strValueName, CString& strValue)
 {
     if (m_pImpl == nullptr)
     {
@@ -123,7 +123,7 @@ int CInfoMonitorCore::ReadRegistry(const CString& strRegPath, const CString& str
     return m_pImpl->ReadRegistry(strRegPath, strValueName, strValue);
 }
 
-int CInfoMonitorCore::WriteRegistry(const CString& strRegPath, const CString& strValueName, const CString& strValue)
+int InfoMonitorCore::WriteRegistry(const CString& strRegPath, const CString& strValueName, const CString& strValue)
 {
     if (m_pImpl == nullptr)
     {
@@ -132,7 +132,7 @@ int CInfoMonitorCore::WriteRegistry(const CString& strRegPath, const CString& st
     return m_pImpl->WriteRegistry(strRegPath, strValueName, strValue);
 }
 
-int CInfoMonitorCore::DeleteRegistry(const CString& strRegPath, const CString& strValueName)
+int InfoMonitorCore::DeleteRegistry(const CString& strRegPath, const CString& strValueName)
 {
     if (m_pImpl == nullptr)
     {
@@ -143,7 +143,7 @@ int CInfoMonitorCore::DeleteRegistry(const CString& strRegPath, const CString& s
 
 // ========== 文件操作 ==========
 
-int CInfoMonitorCore::ReadFile(const CString& strFilePath, CString& strContent)
+int InfoMonitorCore::ReadFile(const CString& strFilePath, CString& strContent)
 {
     if (m_pImpl == nullptr)
     {
@@ -152,7 +152,7 @@ int CInfoMonitorCore::ReadFile(const CString& strFilePath, CString& strContent)
     return m_pImpl->ReadFile(strFilePath, strContent);
 }
 
-int CInfoMonitorCore::WriteFile(const CString& strFilePath, const CString& strContent)
+int InfoMonitorCore::WriteFile(const CString& strFilePath, const CString& strContent)
 {
     if (m_pImpl == nullptr)
     {
@@ -161,7 +161,7 @@ int CInfoMonitorCore::WriteFile(const CString& strFilePath, const CString& strCo
     return m_pImpl->WriteFile(strFilePath, strContent);
 }
 
-int CInfoMonitorCore::DeleteFile(const CString& strFilePath)
+int InfoMonitorCore::DeleteFile(const CString& strFilePath)
 {
     if (m_pImpl == nullptr)
     {
@@ -170,7 +170,7 @@ int CInfoMonitorCore::DeleteFile(const CString& strFilePath)
     return m_pImpl->DeleteFile(strFilePath);
 }
 
-int CInfoMonitorCore::CopyFile(const CString& strSrcPath, const CString& strDstPath)
+int InfoMonitorCore::CopyFile(const CString& strSrcPath, const CString& strDstPath)
 {
     if (m_pImpl == nullptr)
     {
@@ -181,7 +181,7 @@ int CInfoMonitorCore::CopyFile(const CString& strSrcPath, const CString& strDstP
 
 // ========== 查询与获取 ==========
 
-int CInfoMonitorCore::GetMonitorList(std::vector<MonitorItem>& vecItems)
+int InfoMonitorCore::GetMonitorList(std::vector<MonitorItem>& vecItems)
 {
     if (m_pImpl == nullptr)
     {
@@ -190,7 +190,7 @@ int CInfoMonitorCore::GetMonitorList(std::vector<MonitorItem>& vecItems)
     return m_pImpl->GetMonitorList(vecItems);
 }
 
-int CInfoMonitorCore::GetMonitorItemsByGroup(int nGroupId, std::vector<MonitorItem>& vecItems)
+int InfoMonitorCore::GetMonitorItemsByGroup(int nGroupId, std::vector<MonitorItem>& vecItems)
 {
     if (m_pImpl == nullptr)
     {
@@ -199,7 +199,7 @@ int CInfoMonitorCore::GetMonitorItemsByGroup(int nGroupId, std::vector<MonitorIt
     return m_pImpl->GetMonitorItemsByGroup(nGroupId, vecItems);
 }
 
-int CInfoMonitorCore::GetAllGroups(std::vector<GroupInfo>& vecGroups)
+int InfoMonitorCore::GetAllGroups(std::vector<GroupInfo>& vecGroups)
 {
     if (m_pImpl == nullptr)
     {
@@ -208,7 +208,7 @@ int CInfoMonitorCore::GetAllGroups(std::vector<GroupInfo>& vecGroups)
     return m_pImpl->GetAllGroups(vecGroups);
 }
 
-int CInfoMonitorCore::SetMonitorGroup(const CString& strPath, int nGroupId)
+int InfoMonitorCore::SetMonitorGroup(const CString& strPath, int nGroupId)
 {
     if (m_pImpl == nullptr)
     {
@@ -217,7 +217,7 @@ int CInfoMonitorCore::SetMonitorGroup(const CString& strPath, int nGroupId)
     return m_pImpl->SetMonitorGroup(strPath, nGroupId);
 }
 
-int CInfoMonitorCore::SetGroupName(int nGroupId, const CString& strGroupName)
+int InfoMonitorCore::SetGroupName(int nGroupId, const CString& strGroupName)
 {
     if (m_pImpl == nullptr)
     {
@@ -226,7 +226,7 @@ int CInfoMonitorCore::SetGroupName(int nGroupId, const CString& strGroupName)
     return m_pImpl->SetGroupName(nGroupId, strGroupName);
 }
 
-int CInfoMonitorCore::RemoveGroup(int nGroupId)
+int InfoMonitorCore::RemoveGroup(int nGroupId)
 {
     if (m_pImpl == nullptr)
     {
@@ -235,7 +235,7 @@ int CInfoMonitorCore::RemoveGroup(int nGroupId)
     return m_pImpl->RemoveGroup(nGroupId);
 }
 
-int CInfoMonitorCore::EnableGroup(int nGroupId, bool bEnable)
+int InfoMonitorCore::EnableGroup(int nGroupId, bool bEnable)
 {
     if (m_pImpl == nullptr)
     {
@@ -244,7 +244,7 @@ int CInfoMonitorCore::EnableGroup(int nGroupId, bool bEnable)
     return m_pImpl->EnableGroup(nGroupId, bEnable);
 }
 
-int CInfoMonitorCore::GetChangeRecords(std::vector<ChangeRecord>& vecRecords)
+int InfoMonitorCore::GetChangeRecords(std::vector<ChangeRecord>& vecRecords)
 {
     if (m_pImpl == nullptr)
     {
@@ -253,7 +253,7 @@ int CInfoMonitorCore::GetChangeRecords(std::vector<ChangeRecord>& vecRecords)
     return m_pImpl->GetChangeRecords(vecRecords);
 }
 
-int CInfoMonitorCore::ClearChangeRecords()
+int InfoMonitorCore::ClearChangeRecords()
 {
     if (m_pImpl == nullptr)
     {
@@ -262,7 +262,7 @@ int CInfoMonitorCore::ClearChangeRecords()
     return m_pImpl->ClearChangeRecords();
 }
 
-bool CInfoMonitorCore::IsMonitored(const CString& strPath)
+bool InfoMonitorCore::IsMonitored(const CString& strPath)
 {
     if (m_pImpl == nullptr)
     {
@@ -273,7 +273,7 @@ bool CInfoMonitorCore::IsMonitored(const CString& strPath)
 
 // ========== 监控控制 ==========
 
-int CInfoMonitorCore::StartMonitor()
+int InfoMonitorCore::StartMonitor()
 {
     if (m_pImpl == nullptr)
     {
@@ -282,7 +282,7 @@ int CInfoMonitorCore::StartMonitor()
     return m_pImpl->StartMonitor();
 }
 
-int CInfoMonitorCore::StopMonitor()
+int InfoMonitorCore::StopMonitor()
 {
     if (m_pImpl == nullptr)
     {
@@ -291,7 +291,7 @@ int CInfoMonitorCore::StopMonitor()
     return m_pImpl->StopMonitor();
 }
 
-int CInfoMonitorCore::ScanNow()
+int InfoMonitorCore::ScanNow()
 {
     if (m_pImpl == nullptr)
     {
@@ -302,9 +302,28 @@ int CInfoMonitorCore::ScanNow()
 
 // ========== 其他 ==========
 
-unsigned int CInfoMonitorCore::GetVersion()
+unsigned int InfoMonitorCore::GetVersion()
 {
     return (INFOMONITORCORE_VERSION_MAJOR << 16) |
            (INFOMONITORCORE_VERSION_MINOR << 8) |
            (INFOMONITORCORE_VERSION_PATCH);
+}
+*/
+
+InfoMonitorCore::InfoMonitorCore() {
+
+}
+
+InfoMonitorCore::~InfoMonitorCore() {
+
+}
+
+int InfoMonitorCore::Init() {
+
+    return 0;
+}
+
+int InfoMonitorCore::UnInit() {
+
+    return 0;
 }

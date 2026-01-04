@@ -3,6 +3,7 @@
 #include <QString>
 #include <QSettings>
 
+// todo(wangwenxi)：到时候改成依赖注入的形式
 class UIConfigManager : public QObject {
     Q_OBJECT
 

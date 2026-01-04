@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include "IMCoreDefine.h"
-#include "../data/MonitorItemInfo.h"
 
+/*
 
 // todo(wangwenxi)：这里最好别用Qt，因为我需要把它扩展到别的地方
 
@@ -24,4 +24,4 @@ public:
     // 通知外面数据已经变了，可以用回调函数来实现
 
 };
-
+*/

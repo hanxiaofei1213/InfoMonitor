@@ -1,11 +1,11 @@
 #include "IMCoreConfigManager.h"
+/*
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
 #include <QDebug>
 
 
-/*
 IMCoreConfigManager::IMCoreConfigManager() {
     m_configFilePath = QCoreApplication::applicationDirPath() + "/coreConfig.json";
     loadConfiguration();

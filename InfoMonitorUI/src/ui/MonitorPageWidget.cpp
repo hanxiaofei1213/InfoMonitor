@@ -6,7 +6,7 @@
 #include <QHeaderView>
 
 
-MonitorPageWidget::MonitorPageWidget(QWidget* pParent) : QWidget(pParent) {
+MonitorPageWidget::MonitorPageWidget(const QString& strTitle, QWidget* pParent) : QWidget(pParent), m_strTitle(strTitle) {
     ui.setupUi(this);
 
     InitUI();
@@ -14,6 +14,14 @@ MonitorPageWidget::MonitorPageWidget(QWidget* pParent) : QWidget(pParent) {
 
 MonitorPageWidget::~MonitorPageWidget() {
     // 清理资源
+}
+
+void MonitorPageWidget::SetTitle(const QString& strTitle) {
+    m_strTitle = strTitle;
+}
+
+QString MonitorPageWidget::GetTitle() const {
+    return m_strTitle;
 }
 
 void MonitorPageWidget::InitUI() {

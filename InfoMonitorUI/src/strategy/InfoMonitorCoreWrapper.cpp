@@ -1,13 +1,13 @@
-#include "InfoMonitorStrategy.h"
-#include "../ui/UIConfigManager.h"
-#include "../data/MonitorPageInfo.h"
-
+#include "InfoMonitorCoreWrapper.h"
 #include <QDebug>
 #include <QApplication>
 #include <QVariant>
 #include <QDateTime>
+#include "InfoMonitorCore/include/InfoMonitorCore.h"
 
-InfoMonitorStrategy::InfoMonitorStrategy(QObject* parent)
+
+/*
+InfoMonitorCoreWrapper::InfoMonitorCoreWrapper(QObject* parent)
     : QObject(parent)
     , m_monitoringTimer(nullptr)
     , m_isInitialized(false)
@@ -18,12 +18,12 @@ InfoMonitorStrategy::InfoMonitorStrategy(QObject* parent)
     qDebug() << "InfoMonitorStrategy created";
 }
 
-InfoMonitorStrategy::~InfoMonitorStrategy() {
+InfoMonitorCoreWrapper::~InfoMonitorCoreWrapper() {
     cleanup();
     qDebug() << "InfoMonitorStrategy destroyed";
 }
 
-bool InfoMonitorStrategy::initialize() {
+bool InfoMonitorCoreWrapper::initialize() {
     if (m_isInitialized) {
         qWarning() << "InfoMonitorStrategy already initialized";
         return true;
@@ -60,7 +60,7 @@ bool InfoMonitorStrategy::initialize() {
     }
 }
 
-void InfoMonitorStrategy::cleanup() {
+void InfoMonitorCoreWrapper::cleanup() {
     if (m_isMonitoring) {
         stopMonitoring();
     }
@@ -82,7 +82,7 @@ void InfoMonitorStrategy::cleanup() {
     m_isInitialized = false;
 }
 
-bool InfoMonitorStrategy::loadConfiguration() {
+bool InfoMonitorCoreWrapper::loadConfiguration() {
     //if (!m_coreConfigManager) {
     //    return false;
     //}
@@ -117,7 +117,7 @@ bool InfoMonitorStrategy::loadConfiguration() {
     return success;
 }
 
-bool InfoMonitorStrategy::saveConfiguration() {
+bool InfoMonitorCoreWrapper::saveConfiguration() {
     //if (!m_coreConfigManager) {
     //    return false;
     //}
@@ -139,7 +139,7 @@ bool InfoMonitorStrategy::saveConfiguration() {
     return success;
 }
 
-void InfoMonitorStrategy::resetToDefault() {
+void InfoMonitorCoreWrapper::resetToDefault() {
     m_checkInterval = 60000;
     m_autoStart = true;
     m_isPaused = false;
@@ -151,7 +151,7 @@ void InfoMonitorStrategy::resetToDefault() {
     emit statusMessageChanged("Configuration reset to default");
 }
 
-void InfoMonitorStrategy::startMonitoring() {
+void InfoMonitorCoreWrapper::startMonitoring() {
     if (!m_isInitialized) {
         emit errorOccurred("Strategy not initialized");
         return;
@@ -181,7 +181,7 @@ void InfoMonitorStrategy::startMonitoring() {
     qDebug() << "Monitoring started with interval:" << m_checkInterval << "ms";
 }
 
-void InfoMonitorStrategy::stopMonitoring() {
+void InfoMonitorCoreWrapper::stopMonitoring() {
     if (!m_isMonitoring) {
         qDebug() << "Monitoring already stopped";
         return;
@@ -201,7 +201,7 @@ void InfoMonitorStrategy::stopMonitoring() {
     qDebug() << "Monitoring stopped";
 }
 
-void InfoMonitorStrategy::pauseMonitoring() {
+void InfoMonitorCoreWrapper::pauseMonitoring() {
     if (!m_isMonitoring || m_isPaused) {
         return;
     }
@@ -218,7 +218,7 @@ void InfoMonitorStrategy::pauseMonitoring() {
     qDebug() << "Monitoring paused";
 }
 
-void InfoMonitorStrategy::resumeMonitoring() {
+void InfoMonitorCoreWrapper::resumeMonitoring() {
     if (!m_isMonitoring || !m_isPaused) {
         return;
     }
@@ -235,11 +235,11 @@ void InfoMonitorStrategy::resumeMonitoring() {
     qDebug() << "Monitoring resumed";
 }
 
-bool InfoMonitorStrategy::isMonitoring() const {
+bool InfoMonitorCoreWrapper::isMonitoring() const {
     return m_isMonitoring && !m_isPaused;
 }
 
-void InfoMonitorStrategy::addMonitorPage(const QString& name, const QString& url) {
+void InfoMonitorCoreWrapper::addMonitorPage(const QString& name, const QString& url) {
     QString pageId = QString("page_%1").arg(QDateTime::currentMSecsSinceEpoch());
     
     MonitorPageInfo page{
@@ -259,7 +259,7 @@ void InfoMonitorStrategy::addMonitorPage(const QString& name, const QString& url
     qDebug() << "Added monitor page:" << name << "URL:" << url;
 }
 
-void InfoMonitorStrategy::removeMonitorPage(const QString& pageId) {
+void InfoMonitorCoreWrapper::removeMonitorPage(const QString& pageId) {
     for (int i = 0; i < m_monitorPages.size(); ++i) {
         if (m_monitorPages[i].id == pageId) {
             QString pageName = m_monitorPages[i].name;
@@ -277,7 +277,7 @@ void InfoMonitorStrategy::removeMonitorPage(const QString& pageId) {
     qWarning() << "Page not found for removal:" << pageId;
 }
 
-void InfoMonitorStrategy::updateMonitorPage(const QString& pageId, const MonitorPageInfo& page) {
+void InfoMonitorCoreWrapper::updateMonitorPage(const QString& pageId, const MonitorPageInfo& page) {
     //for (int i = 0; i < m_monitorPages.size(); ++i) {
     //    if (m_monitorPages[i].id == pageId) {
     //        m_monitorPages[i] = page;
@@ -295,11 +295,11 @@ void InfoMonitorStrategy::updateMonitorPage(const QString& pageId, const Monitor
     qWarning() << "Page not found for update:" << pageId;
 }
 
-QList<MonitorPageInfo> InfoMonitorStrategy::getMonitorPages() const {
+QList<MonitorPageInfo> InfoMonitorCoreWrapper::getMonitorPages() const {
     return m_monitorPages;
 }
 
-MonitorPageInfo* InfoMonitorStrategy::findMonitorPage(const QString& pageId) {
+MonitorPageInfo* InfoMonitorCoreWrapper::findMonitorPage(const QString& pageId) {
     for (int i = 0; i < m_monitorPages.size(); ++i) {
         if (m_monitorPages[i].id == pageId) {
             return &m_monitorPages[i];
@@ -308,7 +308,7 @@ MonitorPageInfo* InfoMonitorStrategy::findMonitorPage(const QString& pageId) {
     return nullptr;
 }
 
-const MonitorPageInfo* InfoMonitorStrategy::findMonitorPage(const QString& pageId) const {
+const MonitorPageInfo* InfoMonitorCoreWrapper::findMonitorPage(const QString& pageId) const {
     for (int i = 0; i < m_monitorPages.size(); ++i) {
         if (m_monitorPages[i].id == pageId) {
             return &m_monitorPages[i];
@@ -317,7 +317,7 @@ const MonitorPageInfo* InfoMonitorStrategy::findMonitorPage(const QString& pageI
     return nullptr;
 }
 
-void InfoMonitorStrategy::setCheckInterval(int intervalMs) {
+void InfoMonitorCoreWrapper::setCheckInterval(int intervalMs) {
     if (intervalMs < 1000) { // 最小1秒
         intervalMs = 1000;
     }
@@ -335,11 +335,11 @@ void InfoMonitorStrategy::setCheckInterval(int intervalMs) {
     qDebug() << "Check interval set to:" << intervalMs << "ms";
 }
 
-int InfoMonitorStrategy::getCheckInterval() const {
+int InfoMonitorCoreWrapper::getCheckInterval() const {
     return m_checkInterval;
 }
 
-void InfoMonitorStrategy::setAutoStart(bool enabled) {
+void InfoMonitorCoreWrapper::setAutoStart(bool enabled) {
     m_autoStart = enabled;
 
     QVariantMap settings;
@@ -349,24 +349,24 @@ void InfoMonitorStrategy::setAutoStart(bool enabled) {
     qDebug() << "Auto start set to:" << enabled;
 }
 
-bool InfoMonitorStrategy::isAutoStart() const {
+bool InfoMonitorCoreWrapper::isAutoStart() const {
     return m_autoStart;
 }
 
 // 公共槽函数实现
-void InfoMonitorStrategy::onInitializeRequest() {
+void InfoMonitorCoreWrapper::onInitializeRequest() {
     initialize();
 }
 
-void InfoMonitorStrategy::onStartMonitoringRequest() {
+void InfoMonitorCoreWrapper::onStartMonitoringRequest() {
     startMonitoring();
 }
 
-void InfoMonitorStrategy::onStopMonitoringRequest() {
+void InfoMonitorCoreWrapper::onStopMonitoringRequest() {
     stopMonitoring();
 }
 
-void InfoMonitorStrategy::onConfigurationChangeRequest(const QVariantMap& config) {
+void InfoMonitorCoreWrapper::onConfigurationChangeRequest(const QVariantMap& config) {
     if (config.contains("checkInterval")) {
         setCheckInterval(config["checkInterval"].toInt());
     }
@@ -378,11 +378,11 @@ void InfoMonitorStrategy::onConfigurationChangeRequest(const QVariantMap& config
     saveConfiguration();
 }
 
-void InfoMonitorStrategy::onPageAddRequest(const QString& name, const QString& url) {
+void InfoMonitorCoreWrapper::onPageAddRequest(const QString& name, const QString& url) {
     addMonitorPage(name, url);
 }
 
-void InfoMonitorStrategy::onPageRemoveRequest(const QString& pageId) {
+void InfoMonitorCoreWrapper::onPageRemoveRequest(const QString& pageId) {
     removeMonitorPage(pageId);
 }
 
@@ -390,12 +390,12 @@ void InfoMonitorStrategy::onPageRemoveRequest(const QString& pageId) {
 //    updateMonitorPage(pageId, config);
 //}
 
-void InfoMonitorStrategy::onSettingsChangeRequest(const QVariantMap& settings) {
+void InfoMonitorCoreWrapper::onSettingsChangeRequest(const QVariantMap& settings) {
     onConfigurationChangeRequest(settings);
 }
 
 // 私有槽函数实现
-void InfoMonitorStrategy::onMonitoringTimer() {
+void InfoMonitorCoreWrapper::onMonitoringTimer() {
     if (!m_isMonitoring || m_isPaused) {
         return;
     }
@@ -408,18 +408,18 @@ void InfoMonitorStrategy::onMonitoringTimer() {
     emit globalStatusUpdated(status);
 }
 
-void InfoMonitorStrategy::onConfigurationChanged() {
+void InfoMonitorCoreWrapper::onConfigurationChanged() {
     notifyConfigurationChange();
 }
 
 // 私有方法实现
-void InfoMonitorStrategy::setupTimer() {
+void InfoMonitorCoreWrapper::setupTimer() {
     m_monitoringTimer = new QTimer(this);
     m_monitoringTimer->setSingleShot(false);
-    connect(m_monitoringTimer, &QTimer::timeout, this, &InfoMonitorStrategy::onMonitoringTimer);
+    connect(m_monitoringTimer, &QTimer::timeout, this, &InfoMonitorCoreWrapper::onMonitoringTimer);
 }
 
-void InfoMonitorStrategy::connectSignals() {
+void InfoMonitorCoreWrapper::connectSignals() {
     // 这里可以连接其他组件的信号
     // 例如配置管理器的信号等
 }
@@ -430,7 +430,7 @@ void InfoMonitorStrategy::connectSignals() {
 //    return info;
 //}
 
-QVariantMap InfoMonitorStrategy::createStatusInfo() const {
+QVariantMap InfoMonitorCoreWrapper::createStatusInfo() const {
     QVariantMap status;
     status["isMonitoring"] = m_isMonitoring;
     status["isPaused"] = m_isPaused;
@@ -442,11 +442,11 @@ QVariantMap InfoMonitorStrategy::createStatusInfo() const {
     return status;
 }
 
-void InfoMonitorStrategy::validateConfiguration() {
+void InfoMonitorCoreWrapper::validateConfiguration() {
     // TODO: 实现配置验证逻辑
 }
 
-void InfoMonitorStrategy::notifyConfigurationChange() {
+void InfoMonitorCoreWrapper::notifyConfigurationChange() {
     QVariantMap config;
     config["checkInterval"] = m_checkInterval;
     config["autoStart"] = m_autoStart;
@@ -464,4 +464,28 @@ void InfoMonitorStrategy::notifyConfigurationChange() {
     config["pages"] = pagesList;
 
     emit configurationLoaded(config);
+}
+
+*/
+
+InfoMonitorCoreWrapper::InfoMonitorCoreWrapper(QObject* pParent) : QObject(pParent) {
+    m_pInfoMonitorCore = std::make_shared<InfoMonitorCore>();
+}
+
+InfoMonitorCoreWrapper::~InfoMonitorCoreWrapper() {
+
+}
+
+void InfoMonitorCoreWrapper::Init() {
+    if (!m_pInfoMonitorCore) {
+        return;
+    }
+}
+
+void InfoMonitorCoreWrapper::UnInit() {
+    if (!m_pInfoMonitorCore) {
+        return;
+    }
+
+
 }
