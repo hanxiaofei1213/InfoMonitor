@@ -11,7 +11,10 @@ public:
     MonitorPageManager(InfoMonitorCoreWrapper* pCoreWrapper, QObject* pParent);
     ~MonitorPageManager();
 
-    QVector<MonitorPageWidget*> CreateMonitorPages();
+    QVector<MonitorPageWidget*> CreateMonitorPages(QWidget* pPageParent);
+
+protected:
+    MonitorPageWidget* CreateDefaultMonitorPage(QWidget* pPageParent);    
 
 
 private:

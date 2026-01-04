@@ -71,11 +71,6 @@ void InfoMonitorCoreWrapper::cleanup() {
         m_monitoringTimer = nullptr;
     }
 
-    //if (m_coreConfigManager) {
-    //    delete m_coreConfigManager;
-    //    m_coreConfigManager = nullptr;
-    //}
-
     // UIConfigManager 由 QObject 父子关系自动管理
     m_uiConfigManager = nullptr;
 
@@ -486,6 +481,7 @@ void InfoMonitorCoreWrapper::UnInit() {
     if (!m_pInfoMonitorCore) {
         return;
     }
+
 
 
 }

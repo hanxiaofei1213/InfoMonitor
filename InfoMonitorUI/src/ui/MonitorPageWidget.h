@@ -5,6 +5,7 @@
 #include <QList>
 //#include "MonitorItem.h"
 #include "ui_MonitorPageWidget.h"
+#include "src\data\MonitorPageInfo.h"
 
 // todo(wangwenxi)：负责具体展示的内容，具体的内容去业务层查
 // todo(wangwenxi)：这里到时候也需要加一个策略类
@@ -13,7 +14,7 @@
 class MonitorPageWidget : public QWidget {
     Q_OBJECT
 public:
-    MonitorPageWidget(const QString& strTitle, QWidget* pParent);
+    MonitorPageWidget(const MonitorPageInfo& info, QWidget* pParent);
     ~MonitorPageWidget();
 
     void SetTitle(const QString& strTitle);
@@ -28,9 +29,7 @@ protected:
 
 private:
     Ui::MonitorPageWidget ui;
-    QString m_strTitle;
-
-
+    MonitorPageInfo m_pageInfo;
 };
 
 

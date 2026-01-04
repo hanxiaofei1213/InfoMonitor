@@ -1,7 +1,8 @@
 ﻿#pragma once
-
 #include <QObject>
+#include <QVector>
 #include <memory>
+#include "src\data\MonitorPageInfo.h"
 
 class InfoMonitorCore;
 
@@ -13,6 +14,22 @@ public:
 
     void Init();
     void UnInit();
+
+    // ques(wangwenxi): 外面肯定不存数据了，那是这里存呢？还是内核里面存？要不这里维护一份在内存里面？
+    // 读写配置
+    QVector<MonitorPageInfo> GetMonitorPages() const;
+
+    int SaveMonitorPages();
+    
+
+    // 操作配置
+    // ques(wangwenxi): 这里怎么设计接口呢？
+
+
+
+protected:
+
+    
 
 
 
@@ -98,7 +115,6 @@ signals:
     void configurationSaved(bool success);
     void settingsChanged(const QVariantMap& newSettings);
 
-
     // 错误和状态信号
     void errorOccurred(const QString& error, const QString& details = QString());
     void warningIssued(const QString& warning);
@@ -119,7 +135,6 @@ private:
 
     // 成员变量
     UIConfigManager* m_uiConfigManager = nullptr;
-    //IMCoreConfigManager* m_coreConfigManager;
     QTimer* m_monitoringTimer;
 
     bool m_isInitialized;

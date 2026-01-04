@@ -5,8 +5,7 @@
 #include <QTableWidgetItem>
 #include <QHeaderView>
 
-
-MonitorPageWidget::MonitorPageWidget(const QString& strTitle, QWidget* pParent) : QWidget(pParent), m_strTitle(strTitle) {
+MonitorPageWidget::MonitorPageWidget(const MonitorPageInfo& info, QWidget* pParent) : QWidget(pParent), m_pageInfo(info) {
     ui.setupUi(this);
 
     InitUI();
@@ -17,11 +16,11 @@ MonitorPageWidget::~MonitorPageWidget() {
 }
 
 void MonitorPageWidget::SetTitle(const QString& strTitle) {
-    m_strTitle = strTitle;
+    m_pageInfo.strTitle = strTitle;
 }
 
 QString MonitorPageWidget::GetTitle() const {
-    return m_strTitle;
+    return m_pageInfo.strTitle;
 }
 
 void MonitorPageWidget::InitUI() {
