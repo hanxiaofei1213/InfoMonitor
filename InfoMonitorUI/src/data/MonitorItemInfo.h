@@ -19,3 +19,5 @@ struct MonitorItemInfo {
     QString lastStatus;
     QString errorMessage;
 };
+
+// todo(wangwenxi): 这里要不加一个结果的结构体吧

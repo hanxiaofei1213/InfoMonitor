@@ -4,6 +4,7 @@
 
 class MonitorPageWidget;
 class InfoMonitorCoreWrapper;
+class MonitorPageInfo;
 
 class MonitorPageManager : public QObject {
     Q_OBJECT
@@ -14,7 +15,8 @@ public:
     QVector<MonitorPageWidget*> CreateMonitorPages(QWidget* pPageParent);
 
 protected:
-    MonitorPageWidget* CreateDefaultMonitorPage(QWidget* pPageParent);    
+    MonitorPageWidget* CreateDefaultMonitorPage(QWidget* pPageParent);
+    MonitorPageInfo CreateDefaultMonitorPageInfo();
 
 
 private:

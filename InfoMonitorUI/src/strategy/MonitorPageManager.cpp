@@ -1,4 +1,5 @@
 ﻿#include "MonitorPageManager.h"
+#include "src/data/MonitorPageInfo.h"
 
 MonitorPageManager::MonitorPageManager(InfoMonitorCoreWrapper* pCoreWrapper, QObject* pParent) : QObject(pParent), m_pCoreWrapper(pCoreWrapper) {
 

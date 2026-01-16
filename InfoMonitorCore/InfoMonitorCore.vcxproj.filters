@@ -9,6 +9,12 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="import">
+      <UniqueIdentifier>{37bd541b-f273-4fe2-96a1-17433beca8ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="import\json">
+      <UniqueIdentifier>{0221f16b-5d5f-4221-8fbf-4c1152b05a65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\InfoMonitorCore.h">
@@ -28,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="src\IMCoreWrapper.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="import\json\json.hpp">
+      <Filter>import\json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

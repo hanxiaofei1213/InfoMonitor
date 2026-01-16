@@ -672,7 +672,7 @@ void InfoMonitor::InitPage() {
         return;
     }
 
-    QVector<MonitorPageWidget*> vecPageWidgets = m_pPageManager->CreateMonitorPages();
+    QVector<MonitorPageWidget*> vecPageWidgets = m_pPageManager->CreateMonitorPages(this);
     if (vecPageWidgets.isEmpty()) {
         assert(false && "vecPage shouldn't be empty");
         return;

@@ -15,7 +15,6 @@ public:
     void Init();
     void UnInit();
 
-    // ques(wangwenxi): 外面肯定不存数据了，那是这里存呢？还是内核里面存？要不这里维护一份在内存里面？
     // 读写配置
     QVector<MonitorPageInfo> GetMonitorPages() const;
 
@@ -28,13 +27,14 @@ public:
 
 
 protected:
-
+    
     
 
 
 
 private:
     std::shared_ptr<InfoMonitorCore> m_pInfoMonitorCore;
+    // todo(wangwenxi): 这里存所有数据
 
 };
 
@@ -46,9 +46,7 @@ public:
     explicit InfoMonitorCoreWrapper(QObject* parent = nullptr);
     ~InfoMonitorCoreWrapper();
 
-    // 初始化和清理
-    bool initialize();
-    void cleanup();
+
 
     // 配置管理
     bool loadConfiguration();
